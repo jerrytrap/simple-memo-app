@@ -5,7 +5,8 @@ import androidx.room.Room
 import com.lunchplay.data.MemoDao
 import com.lunchplay.data.MemoDataSource
 import com.lunchplay.data.MemoDatabase
-import com.lunchplay.data.MemoRepository
+import com.lunchplay.data.MemoRepositoryImpl
+import com.lunchplay.domain.MemoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,6 +39,6 @@ object DiModule {
 
     @Singleton
     @Provides
-    fun provideMemoRepository(memoDataSource: MemoDataSource) =
-        MemoRepository(memoDataSource)
+    fun provideMemoRepository(memoDataSource: MemoDataSource): MemoRepository =
+        MemoRepositoryImpl(memoDataSource)
 }

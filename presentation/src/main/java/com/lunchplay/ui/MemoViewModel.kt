@@ -3,7 +3,7 @@ package com.lunchplay.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lunchplay.data.MemoRepository
+import com.lunchplay.domain.GetMemos
 import com.lunchplay.domain.Memo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MemoViewModel @Inject constructor(
-    private val memoRepository: MemoRepository
+    private val getMemos: GetMemos
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
 
@@ -21,12 +21,12 @@ class MemoViewModel @Inject constructor(
     val memos: LiveData<List<Memo>> = _memos
 
     init {
-        getMemos()
+        fetchMemos()
     }
 
-    private fun getMemos() {
+    private fun fetchMemos() {
         disposable.add(
-            memoRepository.getMemos()
+            getMemos()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { result ->
