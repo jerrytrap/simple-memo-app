@@ -1,4 +1,4 @@
-package com.lunchplay.data
+package com.lunchplay.data.memo.source.local
 
 import androidx.room.Dao
 import androidx.room.Query

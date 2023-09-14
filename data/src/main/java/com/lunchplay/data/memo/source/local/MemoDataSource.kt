@@ -1,4 +1,4 @@
-package com.lunchplay.data
+package com.lunchplay.data.memo.source.local
 
 import io.reactivex.Flowable
 import javax.inject.Inject

@@ -2,11 +2,11 @@ package com.lunchplay.simplememoapp
 
 import android.content.Context
 import androidx.room.Room
-import com.lunchplay.data.MemoDao
-import com.lunchplay.data.MemoDataSource
-import com.lunchplay.data.MemoDatabase
-import com.lunchplay.data.MemoRepositoryImpl
-import com.lunchplay.domain.MemoRepository
+import com.lunchplay.data.memo.source.local.MemoDao
+import com.lunchplay.data.memo.source.local.MemoDataSource
+import com.lunchplay.data.database.MemoDatabase
+import com.lunchplay.data.memo.MemoRepositoryImpl
+import com.lunchplay.domain.repository.MemoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

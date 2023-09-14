@@ -3,7 +3,7 @@
     <data>
         <variable
             name="memo"
-            type="com.lunchplay.domain.Memo" />
+            type="com.lunchplay.domain.entity.Memo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

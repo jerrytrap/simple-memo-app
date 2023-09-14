@@ -1,4 +1,4 @@
-package com.lunchplay.domain
+package com.lunchplay.domain.entity
 
 data class Memo(
     val id: Int,

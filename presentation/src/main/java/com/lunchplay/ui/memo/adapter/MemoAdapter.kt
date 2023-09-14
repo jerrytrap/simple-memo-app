@@ -1,4 +1,4 @@
-package com.lunchplay.ui
+package com.lunchplay.ui.memo.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lunchplay.domain.Memo
+import com.lunchplay.domain.entity.Memo
+import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.ItemMemoBinding
 
 class MemoAdapter : ListAdapter<Memo, RecyclerView.ViewHolder>(diffUtil) {

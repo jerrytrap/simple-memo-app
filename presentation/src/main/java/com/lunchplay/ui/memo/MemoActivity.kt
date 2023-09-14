@@ -1,11 +1,13 @@
-package com.lunchplay.ui
+package com.lunchplay.ui.memo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.ActivityMemoBinding
+import com.lunchplay.ui.memo.adapter.MemoAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,9 +1,9 @@
-package com.lunchplay.data
+package com.lunchplay.data.memo.source.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.lunchplay.domain.Memo
+import com.lunchplay.domain.entity.Memo
 
 @Entity
 data class MemoEntity(
