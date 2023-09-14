@@ -1,4 +1,4 @@
-package com.lunchplay.simplememoapp
+package com.lunchplay.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

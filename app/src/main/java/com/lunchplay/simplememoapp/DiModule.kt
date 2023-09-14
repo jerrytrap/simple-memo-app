@@ -2,6 +2,10 @@ package com.lunchplay.simplememoapp
 
 import android.content.Context
 import androidx.room.Room
+import com.lunchplay.data.MemoDao
+import com.lunchplay.data.MemoDataSource
+import com.lunchplay.data.MemoDatabase
+import com.lunchplay.data.MemoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,8 +1,10 @@
-package com.lunchplay.simplememoapp
+package com.lunchplay.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lunchplay.data.MemoRepository
+import com.lunchplay.domain.Memo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

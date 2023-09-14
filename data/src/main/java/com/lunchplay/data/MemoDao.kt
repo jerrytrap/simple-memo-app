@@ -1,4 +1,4 @@
-package com.lunchplay.simplememoapp
+package com.lunchplay.data
 
 import androidx.room.Dao
 import androidx.room.Query

@@ -1,4 +1,4 @@
-package com.lunchplay.simplememoapp
+package com.lunchplay.domain
 
 data class Memo(
     val id: Int,

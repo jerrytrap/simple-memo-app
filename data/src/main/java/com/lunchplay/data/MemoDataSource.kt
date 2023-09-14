@@ -1,4 +1,4 @@
-package com.lunchplay.simplememoapp
+package com.lunchplay.data
 
 import io.reactivex.Flowable
 import javax.inject.Inject

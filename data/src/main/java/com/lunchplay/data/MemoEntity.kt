@@ -1,8 +1,9 @@
-package com.lunchplay.simplememoapp
+package com.lunchplay.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.lunchplay.domain.Memo
 
 @Entity
 data class MemoEntity(
