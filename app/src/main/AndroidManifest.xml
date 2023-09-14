@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SimpleMemoApp"
         tools:targetApi="31">
         <activity
-            android:name=".MemoActivity"
+            android:name="com.lunchplay.ui.memo.MemoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
