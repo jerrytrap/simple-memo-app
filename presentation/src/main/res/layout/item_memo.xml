@@ -35,10 +35,10 @@
             android:text="@{memo.date}"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_memoTitle"
+            app:layout_constraintBottom_toBottomOf="@id/textView_memoTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView_memoTitle"
-            app:layout_constraintTop_toTopOf="@+id/textView_memoTitle"
+            app:layout_constraintStart_toEndOf="@id/textView_memoTitle"
+            app:layout_constraintTop_toTopOf="@id/textView_memoTitle"
             tools:text="9월 13일" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

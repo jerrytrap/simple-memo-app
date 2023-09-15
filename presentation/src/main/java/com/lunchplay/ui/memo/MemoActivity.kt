@@ -2,25 +2,19 @@ package com.lunchplay.ui.memo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.ActivityMemoBinding
-import com.lunchplay.ui.memo.adapter.MemoAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MemoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMemoBinding
-    private val viewModel: MemoViewModel by viewModels()
-    private val adapter = MemoAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBinding()
-
-        setRecyclerView()
+        setFragment()
     }
 
     private fun setBinding() {
@@ -29,14 +23,8 @@ class MemoActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    private fun setRecyclerView() {
-        binding.recyclerViewMemoList.apply {
-            this.adapter = this@MemoActivity.adapter
-            this.layoutManager = LinearLayoutManager(this@MemoActivity)
-        }
-
-        viewModel.memos.observe(this) { result ->
-            adapter.submitList(result)
-        }
+    private fun setFragment() {
+        supportFragmentManager.beginTransaction()
+            .add(binding.navHostFragment.id, MemoListFragment())
     }
 }
