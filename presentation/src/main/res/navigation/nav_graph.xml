@@ -6,5 +6,17 @@
     <fragment
         android:id="@+id/memoListFragment"
         android:name="com.lunchplay.ui.memo.MemoListFragment"
-        android:label="MemoListFragment" />
+        android:label="MemoListFragment">
+        <action
+            android:id="@+id/action_memoListFragment_to_memoDetailFragment"
+            app:destination="@id/memoDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/memoDetailFragment"
+        android:name="com.lunchplay.ui.memodetail.MemoDetailFragment"
+        android:label="MemoDetailFragment" >
+        <argument
+            android:name="memo"
+            app:argType="com.lunchplay.domain.entity.Memo" />
+    </fragment>
 </navigation>

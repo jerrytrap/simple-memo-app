@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lunchplay.domain.entity.Memo
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoListBinding
 import com.lunchplay.ui.memo.adapter.MemoAdapter
@@ -42,5 +44,12 @@ class MemoListFragment : Fragment() {
         viewModel.memos.observe(viewLifecycleOwner) { result ->
             adapter.submitList(result)
         }
+
+        adapter.setOnItemClickListener(object : MemoAdapter.OnItemClickListener {
+            override fun onItemClick(memo: Memo) {
+                val action = MemoListFragmentDirections.actionMemoListFragmentToMemoDetailFragment(memo)
+                findNavController().navigate(action)
+            }
+        })
     }
 }
