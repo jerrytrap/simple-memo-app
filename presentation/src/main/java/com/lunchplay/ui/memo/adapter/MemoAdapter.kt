@@ -11,6 +11,8 @@ import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.ItemMemoBinding
 
 class MemoAdapter : ListAdapter<Memo, RecyclerView.ViewHolder>(diffUtil) {
+    private var onItemClickListener: OnItemClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: ItemMemoBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -18,12 +20,22 @@ class MemoAdapter : ListAdapter<Memo, RecyclerView.ViewHolder>(diffUtil) {
             parent,
             false
         )
-
-        return MemoViewHolder(binding)
+        val holder = MemoViewHolder(binding)
+        binding.root.setOnClickListener {
+            val position = holder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                onItemClickListener?.onItemClick(getItem(position))
+            }
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as MemoViewHolder).bind(getItem(position))
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
     }
 
     class MemoViewHolder(
@@ -32,6 +44,10 @@ class MemoAdapter : ListAdapter<Memo, RecyclerView.ViewHolder>(diffUtil) {
         fun bind(memo: Memo) {
             binding.memo = memo
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(memo: Memo)
     }
 
     companion object {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/memoListFragment">
+    <fragment
+        android:id="@+id/memoListFragment"
+        android:name="com.lunchplay.ui.memo.MemoListFragment"
+        android:label="MemoListFragment">
+        <action
+            android:id="@+id/action_memoListFragment_to_memoDetailFragment"
+            app:destination="@id/memoDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/memoDetailFragment"
+        android:name="com.lunchplay.ui.memodetail.MemoDetailFragment"
+        android:label="MemoDetailFragment" >
+        <argument
+            android:name="memo"
+            app:argType="com.lunchplay.domain.entity.Memo" />
+    </fragment>
+</navigation>
