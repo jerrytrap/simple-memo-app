@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Simple Memo App</string>
+    <string name="info_new_memo">새 메모를 생성해보세요!</string>
 </resources>

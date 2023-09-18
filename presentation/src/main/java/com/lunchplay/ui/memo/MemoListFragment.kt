@@ -46,8 +46,9 @@ class MemoListFragment : Fragment() {
         viewModel.memos.observe(viewLifecycleOwner) { result ->
             binding.progressIndicatorMemoList.isVisible = result is MemoUiState.Loading
             binding.recyclerViewMemoList.isVisible = result is MemoUiState.Success
+            binding.textViewEmpty.isVisible = result is MemoUiState.Empty
 
-            if(result is MemoUiState.Success) {
+            if (result is MemoUiState.Success) {
                 adapter.submitList(result.memos)
             }
         }
