@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lunchplay.domain.usecase.GetMemos
-import com.lunchplay.domain.entity.Memo
+import com.lunchplay.ui.memo.model.MemoUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -17,10 +17,11 @@ class MemoViewModel @Inject constructor(
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
 
-    private val _memos = MutableLiveData<List<Memo>>()
-    val memos: LiveData<List<Memo>> = _memos
+    private val _memos = MutableLiveData<MemoUiState>()
+    val memos: LiveData<MemoUiState> = _memos
 
     init {
+        _memos.value = MemoUiState.Loading
         fetchMemos()
     }
 
@@ -29,9 +30,15 @@ class MemoViewModel @Inject constructor(
             getMemos()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result ->
-                    _memos.value = result
-                }
+                .subscribe({ result ->
+                    _memos.value = if (result.isEmpty()) {
+                        MemoUiState.Empty
+                    } else {
+                        MemoUiState.Success(result)
+                    }
+                }, {
+                    _memos.value = MemoUiState.Error
+                })
         )
     }
 }
