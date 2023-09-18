@@ -35,6 +35,7 @@ class MemoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setRecyclerView()
+        addCreateMemoButtonClickListener()
     }
 
     private fun setRecyclerView() {
@@ -60,5 +61,12 @@ class MemoListFragment : Fragment() {
                 findNavController().navigate(action)
             }
         })
+    }
+
+    private fun addCreateMemoButtonClickListener() {
+        binding.floatingActionButtonCreateMemo.setOnClickListener {
+            val action = MemoListFragmentDirections.actionMemoListFragmentToMemoEditFragment()
+            findNavController().navigate(action)
+        }
     }
 }
