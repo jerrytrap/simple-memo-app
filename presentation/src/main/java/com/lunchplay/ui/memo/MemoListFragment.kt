@@ -13,6 +13,7 @@ import com.lunchplay.domain.entity.Memo
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoListBinding
 import com.lunchplay.ui.memo.adapter.MemoAdapter
+import com.lunchplay.ui.memo.model.MemoUiState
 
 class MemoListFragment : Fragment() {
     private lateinit var binding: FragmentMemoListBinding
@@ -42,7 +43,10 @@ class MemoListFragment : Fragment() {
         }
 
         viewModel.memos.observe(viewLifecycleOwner) { result ->
-            adapter.submitList(result)
+            when(result) {
+                is MemoUiState.Success -> adapter.submitList(result.memos)
+                else -> {} //TODO
+            }
         }
 
         adapter.setOnItemClickListener(object : MemoAdapter.OnItemClickListener {
