@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.ActivityMemoBinding
+import com.lunchplay.ui.memo.fragment.MemoListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

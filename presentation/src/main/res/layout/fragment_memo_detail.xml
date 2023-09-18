@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        tools:context=".memodetail.MemoDetailFragment">
+        tools:context=".memo.fragment.MemoDetailFragment">
 
         <TextView
             android:id="@+id/textView_memoDetailTitle"
