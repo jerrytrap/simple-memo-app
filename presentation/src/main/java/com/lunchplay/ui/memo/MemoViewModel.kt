@@ -30,13 +30,15 @@ class MemoViewModel @Inject constructor(
             getMemos()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result ->
+                .subscribe({ result ->
                     _memos.value = if (result.isEmpty()) {
                         MemoUiState.Empty
                     } else {
                         MemoUiState.Success(result)
                     }
-                }
+                }, {
+                    _memos.value = MemoUiState.Error
+                })
         )
     }
 }
