@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".memo.MemoEditFragment">
+        tools:context=".memo.fragment.MemoEditFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textField_title"

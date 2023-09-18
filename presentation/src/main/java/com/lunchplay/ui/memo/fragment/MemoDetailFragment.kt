@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memodetail
+package com.lunchplay.ui.memo.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

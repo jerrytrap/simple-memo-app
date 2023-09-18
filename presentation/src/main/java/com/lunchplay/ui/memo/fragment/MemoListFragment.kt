@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoListBinding
+import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.memo.adapter.MemoAdapter
 import com.lunchplay.ui.memo.model.MemoUiState
 

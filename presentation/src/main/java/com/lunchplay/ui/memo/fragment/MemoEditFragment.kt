@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoEditBinding
+import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.memo.model.MemoUpdateUiState
 
 class MemoEditFragment : Fragment() {

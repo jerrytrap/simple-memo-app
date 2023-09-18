@@ -6,7 +6,7 @@
     app:startDestination="@id/memoListFragment">
     <fragment
         android:id="@+id/memoListFragment"
-        android:name="com.lunchplay.ui.memo.MemoListFragment"
+        android:name="com.lunchplay.ui.memo.fragment.MemoListFragment"
         android:label="MemoListFragment">
         <action
             android:id="@+id/action_memoListFragment_to_memoDetailFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/memoDetailFragment"
-        android:name="com.lunchplay.ui.memodetail.MemoDetailFragment"
+        android:name="com.lunchplay.ui.memo.fragment.MemoDetailFragment"
         android:label="MemoDetailFragment" >
         <argument
             android:name="memo"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/memoEditFragment"
-        android:name="com.lunchplay.ui.memo.MemoEditFragment"
+        android:name="com.lunchplay.ui.memo.fragment.MemoEditFragment"
         android:label="fragment_memo_edit"
         tools:layout="@layout/fragment_memo_edit" />
 </navigation>
