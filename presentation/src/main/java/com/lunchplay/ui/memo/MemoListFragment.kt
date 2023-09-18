@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -43,9 +44,11 @@ class MemoListFragment : Fragment() {
         }
 
         viewModel.memos.observe(viewLifecycleOwner) { result ->
-            when(result) {
-                is MemoUiState.Success -> adapter.submitList(result.memos)
-                else -> {} //TODO
+            binding.progressIndicatorMemoList.isVisible = result is MemoUiState.Loading
+            binding.recyclerViewMemoList.isVisible = result is MemoUiState.Success
+
+            if(result is MemoUiState.Success) {
+                adapter.submitList(result.memos)
             }
         }
 

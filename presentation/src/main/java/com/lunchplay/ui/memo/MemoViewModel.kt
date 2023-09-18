@@ -21,6 +21,7 @@ class MemoViewModel @Inject constructor(
     val memos: LiveData<MemoUiState> = _memos
 
     init {
+        _memos.value = MemoUiState.Loading
         fetchMemos()
     }
 
