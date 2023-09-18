@@ -2,4 +2,5 @@
     <string name="app_name">Simple Memo App</string>
     <string name="info_new_memo">새 메모를 생성해보세요!</string>
     <string name="info_memo_error">메모를 불러오는 데 실패했습니다.</string>
+    <string name="create_memo">메모 생성</string>
 </resources>
