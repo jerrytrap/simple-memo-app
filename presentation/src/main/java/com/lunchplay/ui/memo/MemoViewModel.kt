@@ -20,6 +20,9 @@ class MemoViewModel @Inject constructor(
     private val _memos = MutableLiveData<MemoUiState>()
     val memos: LiveData<MemoUiState> = _memos
 
+    val editMemoTitle = MutableLiveData<String>()
+    val editMemoContents = MutableLiveData<String>()
+
     init {
         _memos.value = MemoUiState.Loading
         fetchMemos()
