@@ -16,8 +16,10 @@
 
         <TextView
             android:id="@+id/textView_memoTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@{memo.title}"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -26,6 +28,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5"
             tools:text="제목" />
 
         <TextView
