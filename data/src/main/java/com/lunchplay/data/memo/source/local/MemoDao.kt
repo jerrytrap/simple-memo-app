@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 
 @Dao
 interface MemoDao {
-    @Query("SELECT * FROM MemoEntity")
+    @Query("SELECT * FROM MemoEntity ORDER BY date DESC")
     fun getMemos(): Flowable<List<MemoEntity>>
 
     @Insert
