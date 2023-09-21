@@ -8,4 +8,6 @@ interface MemoLocalDataSource {
     fun getMemos(): Flowable<List<MemoEntity>>
 
     fun createMemo(memo: Memo): Completable
+
+    fun editMemo(memo: Memo): Completable
 }

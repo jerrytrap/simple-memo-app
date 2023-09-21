@@ -12,4 +12,7 @@
     <string name="memo_few_years_ago">%1$d년 %2$d월 %3$d일</string>
     <string name="memo_this_year">%1$d월 %2$d일</string>
     <string name="memo_today">%1$d시 %2$d분</string>
+    <string name="memo_edit_success">메모를 수정했습니다.</string>
+    <string name="memo_edit_fail">메모를 수정하지 못했습니다.</string>
+    <string name="edit_memo">수정하기</string>
 </resources>
