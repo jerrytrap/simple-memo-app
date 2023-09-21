@@ -25,7 +25,6 @@ class MemoActivity : AppCompatActivity() {
     }
 
     private fun setFragment() {
-        supportFragmentManager.beginTransaction()
-            .add(binding.navHostFragment.id, MemoListFragment())
+        supportFragmentManager.beginTransaction().add(binding.navHostFragment.id, MemoListFragment())
     }
 }

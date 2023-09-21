@@ -11,8 +11,7 @@ fun String.calcMemoWrittenTime(): WrittenTime {
     val dayDiff = now.dayOfYear - memoDateTime.dayOfYear
 
     return if (yearDiff > 0) {
-        WrittenTime(
-            Period.FEW_YEARS_AGO, memoDateTime)
+        WrittenTime(Period.FEW_YEARS_AGO, memoDateTime)
     } else if (yearDiff == 0 && dayDiff > 0) {
         WrittenTime(Period.THIS_YEAR, memoDateTime)
     } else {

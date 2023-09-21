@@ -8,7 +8,7 @@ import com.lunchplay.ui.memo.model.WrittenTime
 
 @BindingAdapter("writtenTime")
 fun bindingWrittenTime(view: TextView, writtenTime: WrittenTime) {
-    when(writtenTime.period) {
+    when (writtenTime.period) {
         Period.FEW_YEARS_AGO -> {
             view.text = view.context.getString(
                 R.string.memo_few_years_ago,
