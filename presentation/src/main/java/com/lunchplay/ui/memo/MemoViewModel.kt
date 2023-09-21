@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
 import com.lunchplay.domain.usecase.GetMemos
+import com.lunchplay.ui.memo.mapper.toUiModel
 import com.lunchplay.ui.memo.model.MemoUiState
 import com.lunchplay.ui.memo.model.MemoUpdateUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,7 +46,7 @@ class MemoViewModel @Inject constructor(
                     _memos.value = if (result.isEmpty()) {
                         MemoUiState.Empty
                     } else {
-                        MemoUiState.Success(result)
+                        MemoUiState.Success(result.map{ it.toUiModel() })
                     }
                 }, {
                     _memos.value = MemoUiState.Error
@@ -64,7 +66,7 @@ class MemoViewModel @Inject constructor(
                 DEFAULT_MEMO_ID,
                 title,
                 contents,
-                System.currentTimeMillis().toString()
+                LocalDateTime.now().toString()
             )
 
             disposable.add(

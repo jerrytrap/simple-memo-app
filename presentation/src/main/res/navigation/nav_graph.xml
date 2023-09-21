@@ -21,7 +21,7 @@
         android:label="MemoDetailFragment" >
         <argument
             android:name="memo"
-            app:argType="com.lunchplay.domain.entity.Memo" />
+            app:argType="com.lunchplay.ui.memo.model.MemoUiModel" />
     </fragment>
     <fragment
         android:id="@+id/memoEditFragment"
