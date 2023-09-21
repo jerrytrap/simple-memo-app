@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
+import com.lunchplay.domain.usecase.EditMemo
 import com.lunchplay.domain.usecase.GetMemos
 import com.lunchplay.ui.memo.mapper.toUiModel
+import com.lunchplay.ui.memo.model.MemoUiModel
 import com.lunchplay.ui.memo.model.MemoUiState
 import com.lunchplay.ui.memo.model.MemoUpdateUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MemoViewModel @Inject constructor(
     private val getMemos: GetMemos,
-    private val createMemo: CreateMemo
+    private val createMemo: CreateMemo,
+    private val editMemo: EditMemo
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
 
@@ -87,6 +90,46 @@ class MemoViewModel @Inject constructor(
 
             clearTextField()
         }
+    }
+
+    fun editMemo(memo: MemoUiModel) {
+        val title = editMemoTitle.value
+        val contents = editMemoContents.value
+
+        if (title.isNullOrEmpty() || contents.isNullOrEmpty()) {
+            _memoUpdateState.value = MemoUpdateUiState.Empty
+            _memoUpdateState.value = MemoUpdateUiState.Ready
+        } else {
+            val newMemo = Memo(
+                memo.id,
+                title,
+                contents,
+                LocalDateTime.now().toString()
+            )
+
+            disposable.add(
+                editMemo(newMemo)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            _memoUpdateState.value = MemoUpdateUiState.Success
+                            _memoUpdateState.value = MemoUpdateUiState.Ready
+                        },
+                        {
+                            _memoUpdateState.value = MemoUpdateUiState.Fail
+                            _memoUpdateState.value = MemoUpdateUiState.Ready
+                        }
+                    )
+            )
+
+            clearTextField()
+        }
+    }
+
+    fun setTextField(memo: MemoUiModel) {
+        editMemoTitle.value = memo.title
+        editMemoContents.value = memo.contents
     }
 
     private fun clearTextField() {

@@ -8,4 +8,6 @@ interface MemoRepository {
     fun getMemos(): Flowable<List<Memo>>
 
     fun createMemo(memo: Memo): Completable
+
+    fun editMemo(memo: Memo): Completable
 }

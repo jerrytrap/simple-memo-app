@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoDetailBinding
+import com.lunchplay.ui.memo.model.MemoUiModel
 
 class MemoDetailFragment : Fragment() {
     private lateinit var binding: FragmentMemoDetailBinding
@@ -28,5 +30,14 @@ class MemoDetailFragment : Fragment() {
 
         val args: MemoDetailFragmentArgs by navArgs()
         binding.memo = args.memo
+
+        addEditButtonClickListener(args.memo)
+    }
+
+    private fun addEditButtonClickListener(memo: MemoUiModel) {
+        binding.buttonEdit.setOnClickListener {
+            val action = MemoDetailFragmentDirections.actionMemoDetailFragmentToMemoEditFragment(memo)
+            findNavController().navigate(action)
+        }
     }
 }

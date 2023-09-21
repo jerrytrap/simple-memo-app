@@ -7,25 +7,39 @@
     <fragment
         android:id="@+id/memoListFragment"
         android:name="com.lunchplay.ui.memo.fragment.MemoListFragment"
-        android:label="MemoListFragment">
+        android:label="MemoListFragment"
+        tools:layout="@layout/fragment_memo_list">
         <action
             android:id="@+id/action_memoListFragment_to_memoDetailFragment"
             app:destination="@id/memoDetailFragment" />
         <action
             android:id="@+id/action_memoListFragment_to_memoEditFragment"
-            app:destination="@id/memoEditFragment" />
+            app:destination="@id/memoCreateFragment" />
     </fragment>
     <fragment
         android:id="@+id/memoDetailFragment"
         android:name="com.lunchplay.ui.memo.fragment.MemoDetailFragment"
-        android:label="MemoDetailFragment" >
+        android:label="MemoDetailFragment"
+        tools:layout="@layout/fragment_memo_detail">
+        <argument
+            android:name="memo"
+            app:argType="com.lunchplay.ui.memo.model.MemoUiModel" />
+        <action
+            android:id="@+id/action_memoDetailFragment_to_memoEditFragment"
+            app:destination="@id/memoEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/memoCreateFragment"
+        android:name="com.lunchplay.ui.memo.fragment.MemoCreateFragment"
+        android:label="MemoCreateFragment"
+        tools:layout="@layout/fragment_memo_create" />
+    <fragment
+        android:id="@+id/memoEditFragment"
+        android:name="com.lunchplay.ui.memo.fragment.MemoEditFragment"
+        android:label="MemoEditFragment"
+        tools:layout="@layout/fragment_memo_edit">
         <argument
             android:name="memo"
             app:argType="com.lunchplay.ui.memo.model.MemoUiModel" />
     </fragment>
-    <fragment
-        android:id="@+id/memoEditFragment"
-        android:name="com.lunchplay.ui.memo.fragment.MemoEditFragment"
-        android:label="fragment_memo_edit"
-        tools:layout="@layout/fragment_memo_edit" />
 </navigation>

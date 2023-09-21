@@ -10,15 +10,13 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.lunchplay.ui.R
-import com.lunchplay.ui.databinding.FragmentMemoEditBinding
+import com.lunchplay.ui.databinding.FragmentMemoCreateBinding
 import com.lunchplay.ui.memo.MemoViewModel
-import com.lunchplay.ui.memo.model.MemoUiModel
 import com.lunchplay.ui.memo.model.MemoUpdateUiState
 
-class MemoEditFragment : Fragment() {
-    private lateinit var binding: FragmentMemoEditBinding
+class MemoCreateFragment : Fragment() {
+    private lateinit var binding: FragmentMemoCreateBinding
     private val viewModel: MemoViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -26,7 +24,7 @@ class MemoEditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.fragment_memo_edit, container, false
+            layoutInflater, R.layout.fragment_memo_create, container, false
         )
         return binding.root
     }
@@ -35,18 +33,13 @@ class MemoEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
-        val args: MemoDetailFragmentArgs by navArgs()
-        args.apply {
-            viewModel.setTextField(memo)
-            addSaveButtonClickListener(memo)
-        }
-
+        addSaveButtonClickListener()
         observeUpdateState()
     }
 
-    private fun addSaveButtonClickListener(memo: MemoUiModel) {
+    private fun addSaveButtonClickListener() {
         binding.buttonSave.setOnClickListener {
-            viewModel.editMemo(memo)
+            viewModel.createMemo()
         }
     }
 
@@ -54,14 +47,14 @@ class MemoEditFragment : Fragment() {
         viewModel.memoUpdateState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is MemoUpdateUiState.Success -> {
-                    showToast(R.string.memo_edit_success)
-                    findNavController().popBackStack(R.id.memoListFragment, false)
+                    showToast(R.string.memo_create_success)
+                    findNavController().popBackStack()
                 }
                 is MemoUpdateUiState.Empty -> {
                     showToast(R.string.title_or_contents_empty)
                 }
                 is MemoUpdateUiState.Fail -> {
-                    showToast(R.string.memo_edit_fail)
+                    showToast(R.string.memo_create_fail)
                 }
                 is MemoUpdateUiState.Ready -> Unit
             }
