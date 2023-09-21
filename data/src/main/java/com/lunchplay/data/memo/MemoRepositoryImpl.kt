@@ -1,5 +1,6 @@
 package com.lunchplay.data.memo
 
+import com.lunchplay.data.mapper.toMemoEntity
 import com.lunchplay.data.memo.source.local.MemoLocalDataSource
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.repository.MemoRepository
@@ -16,9 +17,9 @@ class MemoRepositoryImpl @Inject constructor(
             })
         }
 
-    override fun createMemo(memo: Memo) = memoLocalDataSource.createMemo(memo)
+    override fun createMemo(memo: Memo) = memoLocalDataSource.createMemo(memo.toMemoEntity())
 
-    override fun editMemo(memo: Memo) = memoLocalDataSource.editMemo(memo)
+    override fun editMemo(memo: Memo) = memoLocalDataSource.editMemo(memo.toMemoEntity())
 
-    override fun deleteMemo(memo: Memo) = memoLocalDataSource.deleteMemo(memo)
+    override fun deleteMemo(memo: Memo) = memoLocalDataSource.deleteMemo(memo.toMemoEntity())
 }
