@@ -1,5 +1,6 @@
 package com.lunchplay.ui.memo.model
 
+import com.lunchplay.domain.entity.Memo
 import java.io.Serializable
 
 data class MemoUiModel(
@@ -7,4 +8,11 @@ data class MemoUiModel(
     val title: String,
     val contents: String,
     val date: WrittenTime
-) : Serializable
+) : Serializable {
+    fun toMemo() = Memo(
+        id,
+        title,
+        contents,
+        date.toString()
+    )
+}

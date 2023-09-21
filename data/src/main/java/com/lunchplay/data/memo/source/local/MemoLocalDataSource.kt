@@ -10,4 +10,6 @@ interface MemoLocalDataSource {
     fun createMemo(memo: Memo): Completable
 
     fun editMemo(memo: Memo): Completable
+
+    fun deleteMemo(memo: Memo): Completable
 }

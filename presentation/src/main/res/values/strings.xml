@@ -15,4 +15,7 @@
     <string name="memo_edit_success">메모를 수정했습니다.</string>
     <string name="memo_edit_fail">메모를 수정하지 못했습니다.</string>
     <string name="edit_memo">수정하기</string>
+    <string name="delete_memo">삭제하기</string>
+    <string name="memo_delete_success">메모를 삭제했습니다.</string>
+    <string name="memo_delete_fail">메모를 삭제하지 못했습니다.</string>
 </resources>

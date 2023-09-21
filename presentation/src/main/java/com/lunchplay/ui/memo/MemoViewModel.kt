@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
+import com.lunchplay.domain.usecase.DeleteMemo
 import com.lunchplay.domain.usecase.EditMemo
 import com.lunchplay.domain.usecase.GetMemos
 import com.lunchplay.ui.memo.mapper.toUiModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class MemoViewModel @Inject constructor(
     private val getMemos: GetMemos,
     private val createMemo: CreateMemo,
-    private val editMemo: EditMemo
+    private val editMemo: EditMemo,
+    private val deleteMemo: DeleteMemo
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
 
@@ -125,6 +127,24 @@ class MemoViewModel @Inject constructor(
 
             clearTextField()
         }
+    }
+
+    fun deleteMemo(memo: MemoUiModel) {
+        disposable.add(
+            deleteMemo(memo.toMemo())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        _memoUpdateState.value = MemoUpdateUiState.Success
+                        _memoUpdateState.value = MemoUpdateUiState.Ready
+                    },
+                    {
+                        _memoUpdateState.value = MemoUpdateUiState.Fail
+                        _memoUpdateState.value = MemoUpdateUiState.Ready
+                    }
+                )
+        )
     }
 
     fun setTextField(memo: MemoUiModel) {
