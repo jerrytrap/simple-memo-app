@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.mapper
 
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.ui.memo.model.MemoUiModel

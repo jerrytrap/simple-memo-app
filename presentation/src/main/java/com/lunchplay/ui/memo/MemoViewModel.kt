@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
 import com.lunchplay.domain.usecase.GetMemos
+import com.lunchplay.ui.memo.mapper.toUiModel
 import com.lunchplay.ui.memo.model.MemoUiState
 import com.lunchplay.ui.memo.model.MemoUpdateUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

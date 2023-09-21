@@ -1,6 +1,6 @@
 package com.lunchplay.data.memo.source.local
 
-import com.lunchplay.data.toMemoEntity
+import com.lunchplay.data.mapper.toMemoEntity
 import com.lunchplay.domain.entity.Memo
 import io.reactivex.Flowable
 import javax.inject.Inject
