@@ -157,6 +157,11 @@ class MemoViewModel @Inject constructor(
         editMemoContents.value = EMPTY_STRING
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        disposable.dispose()
+    }
+
     companion object {
         const val EMPTY_STRING = ""
         const val DEFAULT_MEMO_ID = 0
