@@ -1,41 +1,25 @@
 package com.lunchplay.ui.memo.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoListBinding
-import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.memo.adapter.MemoAdapter
+import com.lunchplay.ui.memo.base.BaseFragment
 import com.lunchplay.ui.memo.model.MemoUiModel
 import com.lunchplay.ui.memo.model.MemoUiState
 
-class MemoListFragment : Fragment() {
-    private lateinit var binding: FragmentMemoListBinding
+class MemoListFragment : BaseFragment<FragmentMemoListBinding>(R.layout.fragment_memo_list) {
     private val adapter = MemoAdapter()
-    private val viewModel: MemoViewModel by activityViewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.fragment_memo_list, container, false
-        )
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setRecyclerView()
+        setItemClickListener()
         addCreateMemoButtonClickListener()
     }
 
@@ -55,7 +39,9 @@ class MemoListFragment : Fragment() {
                 adapter.submitList(result.memos)
             }
         }
+    }
 
+    private fun setItemClickListener() {
         adapter.setOnItemClickListener(object : MemoAdapter.OnItemClickListener {
             override fun onItemClick(memo: MemoUiModel) {
                 val action = MemoListFragmentDirections.actionMemoListFragmentToMemoDetailFragment(memo)

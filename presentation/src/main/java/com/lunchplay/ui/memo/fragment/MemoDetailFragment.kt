@@ -2,32 +2,15 @@ package com.lunchplay.ui.memo.fragment
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoDetailBinding
-import com.lunchplay.ui.memo.MemoViewModel
+import com.lunchplay.ui.memo.base.BaseFragment
 import com.lunchplay.ui.memo.model.MemoUpdateUiState
 
-class MemoDetailFragment : Fragment() {
-    private lateinit var binding: FragmentMemoDetailBinding
-    private val viewModel: MemoViewModel by activityViewModels()
+class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.fragment_memo_detail) {
     private val args: MemoDetailFragmentArgs by navArgs()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.fragment_memo_detail, container, false
-        )
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,9 +51,5 @@ class MemoDetailFragment : Fragment() {
                 else -> Unit
             }
         }
-    }
-
-    private fun showToast(@StringRes id: Int) {
-        Toast.makeText(context, resources.getString(id), Toast.LENGTH_SHORT).show()
     }
 }
