@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,7 +65,7 @@ class MemoViewModel @Inject constructor(
                 DEFAULT_MEMO_ID,
                 title,
                 contents,
-                System.currentTimeMillis().toString()
+                LocalDateTime.now().toString()
             )
 
             disposable.add(
