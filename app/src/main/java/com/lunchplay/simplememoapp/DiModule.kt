@@ -3,9 +3,10 @@ package com.lunchplay.simplememoapp
 import android.content.Context
 import androidx.room.Room
 import com.lunchplay.data.memo.source.local.MemoDao
-import com.lunchplay.data.memo.source.local.MemoDataSource
+import com.lunchplay.data.memo.source.local.MemoLocalDataSourceImpl
 import com.lunchplay.data.database.MemoDatabase
 import com.lunchplay.data.memo.MemoRepositoryImpl
+import com.lunchplay.data.memo.source.local.MemoLocalDataSource
 import com.lunchplay.domain.repository.MemoRepository
 import dagger.Module
 import dagger.Provides
@@ -34,11 +35,11 @@ object DiModule {
 
     @Singleton
     @Provides
-    fun provideMemoDatasource(memoDao: MemoDao) =
-        MemoDataSource(memoDao)
+    fun provideMemoDatasource(memoDao: MemoDao): MemoLocalDataSource =
+        MemoLocalDataSourceImpl(memoDao)
 
     @Singleton
     @Provides
-    fun provideMemoRepository(memoDataSource: MemoDataSource): MemoRepository =
-        MemoRepositoryImpl(memoDataSource)
+    fun provideMemoRepository(memoLocalDataSourceImpl: MemoLocalDataSourceImpl): MemoRepository =
+        MemoRepositoryImpl(memoLocalDataSourceImpl)
 }
