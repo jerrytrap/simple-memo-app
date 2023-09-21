@@ -5,7 +5,7 @@
 
         <variable
             name="memo"
-            type="com.lunchplay.domain.entity.Memo" />
+            type="com.lunchplay.ui.memo.model.MemoUiModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

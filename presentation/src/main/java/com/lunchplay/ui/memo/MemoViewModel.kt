@@ -1,5 +1,6 @@
 package com.lunchplay.ui.memo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,10 +46,11 @@ class MemoViewModel @Inject constructor(
                     _memos.value = if (result.isEmpty()) {
                         MemoUiState.Empty
                     } else {
-                        MemoUiState.Success(result)
+                        MemoUiState.Success(result.map{ it.toUiModel() })
                     }
                 }, {
                     _memos.value = MemoUiState.Error
+                    Log.d("memomemo", it.stackTraceToString())
                 })
         )
     }

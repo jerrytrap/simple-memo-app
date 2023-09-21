@@ -1,7 +1,5 @@
 package com.lunchplay.ui.memo.model
 
-import com.lunchplay.domain.entity.Memo
-
 sealed class MemoUiState {
     object Loading : MemoUiState()
 
@@ -10,6 +8,6 @@ sealed class MemoUiState {
     object Empty : MemoUiState()
 
     data class Success(
-        val memos: List<Memo>
+        val memos: List<MemoUiModel>
     ) : MemoUiState()
 }

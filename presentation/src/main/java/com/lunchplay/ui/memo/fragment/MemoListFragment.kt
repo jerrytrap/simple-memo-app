@@ -10,11 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lunchplay.domain.entity.Memo
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoListBinding
 import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.memo.adapter.MemoAdapter
+import com.lunchplay.ui.memo.model.MemoUiModel
 import com.lunchplay.ui.memo.model.MemoUiState
 
 class MemoListFragment : Fragment() {
@@ -57,7 +57,7 @@ class MemoListFragment : Fragment() {
         }
 
         adapter.setOnItemClickListener(object : MemoAdapter.OnItemClickListener {
-            override fun onItemClick(memo: Memo) {
+            override fun onItemClick(memo: MemoUiModel) {
                 val action = MemoListFragmentDirections.actionMemoListFragmentToMemoDetailFragment(memo)
                 findNavController().navigate(action)
             }
