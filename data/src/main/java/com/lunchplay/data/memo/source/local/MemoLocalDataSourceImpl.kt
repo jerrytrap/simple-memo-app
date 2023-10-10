@@ -1,8 +1,5 @@
 package com.lunchplay.data.memo.source.local
 
-import com.lunchplay.data.mapper.toMemoEntity
-import com.lunchplay.domain.entity.Memo
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -11,7 +8,9 @@ class MemoLocalDataSourceImpl @Inject constructor(
 ) : MemoLocalDataSource {
     override fun getMemos(): Flowable<List<MemoEntity>> = memoDao.getMemos()
 
-    override fun createMemo(memo: Memo) = memoDao.createMemo(memo.toMemoEntity())
+    override fun createMemo(memo: MemoEntity) = memoDao.createMemo(memo)
 
-    override fun editMemo(memo: Memo): Completable = memoDao.editMemo(memo.toMemoEntity())
+    override fun editMemo(memo: MemoEntity) = memoDao.editMemo(memo)
+
+    override fun deleteMemo(memo: MemoEntity) = memoDao.deleteMemo(memo)
 }

@@ -2,32 +2,25 @@ package com.lunchplay.ui.memo.fragment
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoDetailBinding
+import com.lunchplay.ui.memo.base.BaseFragment
+import com.lunchplay.ui.memo.model.MemoUpdateUiState
 
-class MemoDetailFragment : Fragment() {
-    private lateinit var binding: FragmentMemoDetailBinding
+class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.fragment_memo_detail) {
     private val args: MemoDetailFragmentArgs by navArgs()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.fragment_memo_detail, container, false
-        )
-        return binding.root
-    }
+    private lateinit var dialog: MaterialAlertDialogBuilder
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.memo = args.memo
         setOverflowMenu()
+        observeUpdateState()
+        setDialog()
     }
 
     private fun setOverflowMenu() {
@@ -39,8 +32,39 @@ class MemoDetailFragment : Fragment() {
                     findNavController().navigate(action)
                     true
                 }
+                R.id.option_delete -> {
+                    dialog.show()
+                    true
+                }
                 else -> false
             }
         }
+    }
+
+    private fun observeUpdateState() {
+        viewModel.memoUpdateState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is MemoUpdateUiState.Success -> {
+                    showToast(R.string.memo_delete_success)
+                    findNavController().popBackStack()
+                }
+                is MemoUpdateUiState.Fail -> {
+                    showToast(R.string.memo_delete_fail)
+                }
+                else -> Unit
+            }
+        }
+    }
+
+    private fun setDialog() {
+        dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.memo_delete_alert_title))
+            .setMessage(resources.getString(R.string.memo_delete_alert_message))
+            .setNegativeButton(resources.getString(R.string.dismiss)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.confirm)) { _, _ ->
+                viewModel.deleteMemo(args.memo)
+            }
     }
 }
