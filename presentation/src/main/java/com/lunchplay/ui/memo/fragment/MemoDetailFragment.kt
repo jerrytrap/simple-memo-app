@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoDetailBinding
 import com.lunchplay.ui.memo.base.BaseFragment
@@ -11,6 +12,7 @@ import com.lunchplay.ui.memo.model.MemoUpdateUiState
 
 class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.fragment_memo_detail) {
     private val args: MemoDetailFragmentArgs by navArgs()
+    private lateinit var dialog: MaterialAlertDialogBuilder
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -18,6 +20,7 @@ class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.frag
         binding.memo = args.memo
         setOverflowMenu()
         observeUpdateState()
+        setDialog()
     }
 
     private fun setOverflowMenu() {
@@ -30,7 +33,7 @@ class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.frag
                     true
                 }
                 R.id.option_delete -> {
-                    viewModel.deleteMemo(args.memo)
+                    dialog.show()
                     true
                 }
                 else -> false
@@ -51,5 +54,17 @@ class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.frag
                 else -> Unit
             }
         }
+    }
+
+    private fun setDialog() {
+        dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.memo_delete_alert_title))
+            .setMessage(resources.getString(R.string.memo_delete_alert_message))
+            .setNegativeButton(resources.getString(R.string.dismiss)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.confirm)) { _, _ ->
+                viewModel.deleteMemo(args.memo)
+            }
     }
 }
