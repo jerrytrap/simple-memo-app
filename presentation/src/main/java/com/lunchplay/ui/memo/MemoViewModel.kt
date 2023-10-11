@@ -145,8 +145,8 @@ class MemoViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        super.onCleared()
         disposable.dispose()
+        super.onCleared()
     }
 
     companion object {
