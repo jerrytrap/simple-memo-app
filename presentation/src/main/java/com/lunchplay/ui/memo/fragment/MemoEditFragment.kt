@@ -8,7 +8,7 @@ import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoEditBinding
 import com.lunchplay.ui.memo.base.BaseFragment
 import com.lunchplay.ui.memo.model.MemoUiModel
-import com.lunchplay.ui.memo.model.MemoUpdateUiState
+import com.lunchplay.ui.memo.model.MemoEditUiState
 
 class MemoEditFragment : BaseFragment<FragmentMemoEditBinding>(R.layout.fragment_memo_edit) {
     private val args: MemoDetailFragmentArgs by navArgs()
@@ -31,19 +31,19 @@ class MemoEditFragment : BaseFragment<FragmentMemoEditBinding>(R.layout.fragment
     }
 
     private fun observeUpdateState() {
-        viewModel.memoUpdateState.observe(viewLifecycleOwner) { state ->
+        viewModel.memoEditUiState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is MemoUpdateUiState.Success -> {
+                is MemoEditUiState.Success -> {
                     showToast(R.string.memo_edit_success)
                     findNavController().popBackStack(R.id.memoListFragment, false)
                 }
-                is MemoUpdateUiState.Empty -> {
+                is MemoEditUiState.Empty -> {
                     showToast(R.string.title_or_contents_empty)
                 }
-                is MemoUpdateUiState.Fail -> {
+                is MemoEditUiState.Fail -> {
                     showToast(R.string.memo_edit_fail)
                 }
-                is MemoUpdateUiState.Ready -> Unit
+                is MemoEditUiState.Loading -> Unit
             }
         }
     }

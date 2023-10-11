@@ -8,7 +8,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoDetailBinding
 import com.lunchplay.ui.memo.base.BaseFragment
-import com.lunchplay.ui.memo.model.MemoUpdateUiState
+import com.lunchplay.ui.memo.model.MemoDeleteUiState
 
 class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.fragment_memo_detail) {
     private val args: MemoDetailFragmentArgs by navArgs()
@@ -42,16 +42,16 @@ class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.frag
     }
 
     private fun observeUpdateState() {
-        viewModel.memoUpdateState.observe(viewLifecycleOwner) { state ->
+        viewModel.memoDeleteUiState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is MemoUpdateUiState.Success -> {
+                is MemoDeleteUiState.Success -> {
                     showToast(R.string.memo_delete_success)
                     findNavController().popBackStack()
                 }
-                is MemoUpdateUiState.Fail -> {
+                is MemoDeleteUiState.Fail -> {
                     showToast(R.string.memo_delete_fail)
                 }
-                else -> Unit
+                is MemoDeleteUiState.Loading -> Unit
             }
         }
     }
