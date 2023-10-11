@@ -6,7 +6,7 @@ import androidx.navigation.fragment.findNavController
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoCreateBinding
 import com.lunchplay.ui.memo.base.BaseFragment
-import com.lunchplay.ui.memo.model.MemoUpdateUiState
+import com.lunchplay.ui.memo.model.MemoCreateUiState
 
 class MemoCreateFragment : BaseFragment<FragmentMemoCreateBinding>(R.layout.fragment_memo_create) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,19 +24,19 @@ class MemoCreateFragment : BaseFragment<FragmentMemoCreateBinding>(R.layout.frag
     }
 
     private fun observeUpdateState() {
-        viewModel.memoUpdateState.observe(viewLifecycleOwner) { state ->
+        viewModel.memoCreateUiState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is MemoUpdateUiState.Success -> {
+                is MemoCreateUiState.Success -> {
                     showToast(R.string.memo_create_success)
                     findNavController().popBackStack()
                 }
-                is MemoUpdateUiState.Empty -> {
+                is MemoCreateUiState.Empty -> {
                     showToast(R.string.title_or_contents_empty)
                 }
-                is MemoUpdateUiState.Fail -> {
+                is MemoCreateUiState.Fail -> {
                     showToast(R.string.memo_create_fail)
                 }
-                is MemoUpdateUiState.Ready -> Unit
+                is MemoCreateUiState.Loading -> Unit
             }
         }
     }

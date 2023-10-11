@@ -9,9 +9,7 @@ import com.lunchplay.domain.usecase.DeleteMemo
 import com.lunchplay.domain.usecase.EditMemo
 import com.lunchplay.domain.usecase.GetMemos
 import com.lunchplay.ui.memo.mapper.toUiModel
-import com.lunchplay.ui.memo.model.MemoUiModel
-import com.lunchplay.ui.memo.model.MemoUiState
-import com.lunchplay.ui.memo.model.MemoUpdateUiState
+import com.lunchplay.ui.memo.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -31,11 +29,17 @@ class MemoViewModel @Inject constructor(
     private val _memos = MutableLiveData<MemoUiState>()
     val memos: LiveData<MemoUiState> = _memos
 
-    private val _memoUpdateState = MutableLiveData<MemoUpdateUiState>()
-    val memoUpdateState: LiveData<MemoUpdateUiState> = _memoUpdateState
+    private val _memoCreateUiState = MutableLiveData<MemoCreateUiState>()
+    val memoCreateUiState: LiveData<MemoCreateUiState> = _memoCreateUiState
 
-    val editMemoTitle = MutableLiveData<String>()
-    val editMemoContents = MutableLiveData<String>()
+    private val _memoEditUiState = MutableLiveData<MemoEditUiState>()
+    val memoEditUiState: LiveData<MemoEditUiState> = _memoEditUiState
+
+    private val _memoDeleteUiState = MutableLiveData<MemoDeleteUiState>()
+    val memoDeleteUiState: LiveData<MemoDeleteUiState> = _memoDeleteUiState
+
+    val memoTitle = MutableLiveData<String>()
+    val memoContents = MutableLiveData<String>()
 
     init {
         _memos.value = MemoUiState.Loading
@@ -60,12 +64,12 @@ class MemoViewModel @Inject constructor(
     }
 
     fun createMemo() {
-        val title = editMemoTitle.value
-        val contents = editMemoContents.value
+        _memoCreateUiState.value = MemoCreateUiState.Loading
+        val title = memoTitle.value
+        val contents = memoContents.value
 
         if (title.isNullOrEmpty() || contents.isNullOrEmpty()) {
-            _memoUpdateState.value = MemoUpdateUiState.Empty
-            _memoUpdateState.value = MemoUpdateUiState.Ready
+            _memoCreateUiState.value = MemoCreateUiState.Empty
         } else {
             val newMemo = Memo(
                 DEFAULT_MEMO_ID,
@@ -79,14 +83,8 @@ class MemoViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                        {
-                            _memoUpdateState.value = MemoUpdateUiState.Success
-                            _memoUpdateState.value = MemoUpdateUiState.Ready
-                        },
-                        {
-                            _memoUpdateState.value = MemoUpdateUiState.Fail
-                            _memoUpdateState.value = MemoUpdateUiState.Ready
-                        }
+                        { _memoCreateUiState.value = MemoCreateUiState.Success },
+                        { _memoCreateUiState.value = MemoCreateUiState.Fail }
                     )
             )
 
@@ -95,12 +93,12 @@ class MemoViewModel @Inject constructor(
     }
 
     fun editMemo(memo: MemoUiModel) {
-        val title = editMemoTitle.value
-        val contents = editMemoContents.value
+        _memoEditUiState.value = MemoEditUiState.Loading
+        val title = memoTitle.value
+        val contents = memoContents.value
 
         if (title.isNullOrEmpty() || contents.isNullOrEmpty()) {
-            _memoUpdateState.value = MemoUpdateUiState.Empty
-            _memoUpdateState.value = MemoUpdateUiState.Ready
+            _memoEditUiState.value = MemoEditUiState.Empty
         } else {
             val newMemo = Memo(
                 memo.id,
@@ -114,14 +112,8 @@ class MemoViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                        {
-                            _memoUpdateState.value = MemoUpdateUiState.Success
-                            _memoUpdateState.value = MemoUpdateUiState.Ready
-                        },
-                        {
-                            _memoUpdateState.value = MemoUpdateUiState.Fail
-                            _memoUpdateState.value = MemoUpdateUiState.Ready
-                        }
+                        { _memoEditUiState.value = MemoEditUiState.Success },
+                        { _memoEditUiState.value = MemoEditUiState.Fail }
                     )
             )
 
@@ -130,36 +122,31 @@ class MemoViewModel @Inject constructor(
     }
 
     fun deleteMemo(memo: MemoUiModel) {
+        _memoDeleteUiState.value = MemoDeleteUiState.Loading
         disposable.add(
             deleteMemo(memo.toMemo())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {
-                        _memoUpdateState.value = MemoUpdateUiState.Success
-                        _memoUpdateState.value = MemoUpdateUiState.Ready
-                    },
-                    {
-                        _memoUpdateState.value = MemoUpdateUiState.Fail
-                        _memoUpdateState.value = MemoUpdateUiState.Ready
-                    }
+                    { _memoDeleteUiState.value = MemoDeleteUiState.Success },
+                    { _memoDeleteUiState.value = MemoDeleteUiState.Fail }
                 )
         )
     }
 
     fun setTextField(memo: MemoUiModel) {
-        editMemoTitle.value = memo.title
-        editMemoContents.value = memo.contents
+        memoTitle.value = memo.title
+        memoContents.value = memo.contents
     }
 
     private fun clearTextField() {
-        editMemoTitle.value = EMPTY_STRING
-        editMemoContents.value = EMPTY_STRING
+        memoTitle.value = EMPTY_STRING
+        memoContents.value = EMPTY_STRING
     }
 
     override fun onCleared() {
-        super.onCleared()
         disposable.dispose()
+        super.onCleared()
     }
 
     companion object {
