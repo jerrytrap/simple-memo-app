@@ -38,8 +38,8 @@ class MemoViewModel @Inject constructor(
     private val _memoDeleteUiState = MutableLiveData<MemoDeleteUiState>()
     val memoDeleteUiState: LiveData<MemoDeleteUiState> = _memoDeleteUiState
 
-    val editMemoTitle = MutableLiveData<String>()
-    val editMemoContents = MutableLiveData<String>()
+    val memoTitle = MutableLiveData<String>()
+    val memoContents = MutableLiveData<String>()
 
     init {
         _memos.value = MemoUiState.Loading
@@ -65,8 +65,8 @@ class MemoViewModel @Inject constructor(
 
     fun createMemo() {
         _memoCreateUiState.value = MemoCreateUiState.Loading
-        val title = editMemoTitle.value
-        val contents = editMemoContents.value
+        val title = memoTitle.value
+        val contents = memoContents.value
 
         if (title.isNullOrEmpty() || contents.isNullOrEmpty()) {
             _memoCreateUiState.value = MemoCreateUiState.Empty
@@ -94,8 +94,8 @@ class MemoViewModel @Inject constructor(
 
     fun editMemo(memo: MemoUiModel) {
         _memoEditUiState.value = MemoEditUiState.Loading
-        val title = editMemoTitle.value
-        val contents = editMemoContents.value
+        val title = memoTitle.value
+        val contents = memoContents.value
 
         if (title.isNullOrEmpty() || contents.isNullOrEmpty()) {
             _memoEditUiState.value = MemoEditUiState.Empty
@@ -135,13 +135,13 @@ class MemoViewModel @Inject constructor(
     }
 
     fun setTextField(memo: MemoUiModel) {
-        editMemoTitle.value = memo.title
-        editMemoContents.value = memo.contents
+        memoTitle.value = memo.title
+        memoContents.value = memo.contents
     }
 
     private fun clearTextField() {
-        editMemoTitle.value = EMPTY_STRING
-        editMemoContents.value = EMPTY_STRING
+        memoTitle.value = EMPTY_STRING
+        memoContents.value = EMPTY_STRING
     }
 
     override fun onCleared() {
