@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoListBinding
 import com.lunchplay.ui.memo.adapter.MemoAdapter
@@ -46,6 +47,14 @@ class MemoListFragment : BaseFragment<FragmentMemoListBinding>(R.layout.fragment
                 binding.textViewEmpty.isVisible = false
             }
         }
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0) {
+                    binding.recyclerViewMemoList.scrollToPosition(0)
+                }
+            }
+        })
     }
 
     private fun setItemClickListener() {
