@@ -32,11 +32,18 @@ class MemoListFragment : BaseFragment<FragmentMemoListBinding>(R.layout.fragment
         viewModel.memos.observe(viewLifecycleOwner) { result ->
             binding.progressIndicatorMemoList.isVisible = result is MemoUiState.Loading
             binding.recyclerViewMemoList.isVisible = result is MemoUiState.Success
-            binding.textViewEmpty.isVisible = result is MemoUiState.Empty
             binding.textViewError.isVisible = result is MemoUiState.Error
 
             if (result is MemoUiState.Success) {
-                adapter.submitList(result.memos)
+                adapter.submitData(lifecycle, result.memos)
+            }
+        }
+
+        adapter.addLoadStateListener {
+            if (it.append.endOfPaginationReached) {
+                binding.textViewEmpty.isVisible = adapter.itemCount == 0
+            } else {
+                binding.textViewEmpty.isVisible = false
             }
         }
     }
