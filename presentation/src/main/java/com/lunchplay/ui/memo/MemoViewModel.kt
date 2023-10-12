@@ -3,6 +3,9 @@ package com.lunchplay.ui.memo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.map
+import androidx.paging.rxjava2.cachedIn
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
 import com.lunchplay.domain.usecase.DeleteMemo
@@ -49,22 +52,17 @@ class MemoViewModel @Inject constructor(
     private fun fetchMemos() {
         disposable.add(
             getMemos()
+                .cachedIn(viewModelScope)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    _memos.value = if (result.isEmpty()) {
-                        MemoUiState.Empty
-                    } else {
-                        MemoUiState.Success(result.map{ it.toUiModel() })
-                    }
-                }, {
-                    _memos.value = MemoUiState.Error
-                })
+                .subscribe(
+                    { result -> _memos.value = MemoUiState.Success(result.map{ it.toUiModel() }) },
+                    { _memos.value = MemoUiState.Error }
+                )
         )
     }
 
     fun createMemo() {
-        _memoCreateUiState.value = MemoCreateUiState.Loading
         val title = memoTitle.value
         val contents = memoContents.value
 
@@ -93,7 +91,6 @@ class MemoViewModel @Inject constructor(
     }
 
     fun editMemo(memo: MemoUiModel) {
-        _memoEditUiState.value = MemoEditUiState.Loading
         val title = memoTitle.value
         val contents = memoContents.value
 
@@ -122,7 +119,6 @@ class MemoViewModel @Inject constructor(
     }
 
     fun deleteMemo(memo: MemoUiModel) {
-        _memoDeleteUiState.value = MemoDeleteUiState.Loading
         disposable.add(
             deleteMemo(memo.toMemo())
                 .subscribeOn(Schedulers.io())
@@ -137,6 +133,18 @@ class MemoViewModel @Inject constructor(
     fun setTextField(memo: MemoUiModel) {
         memoTitle.value = memo.title
         memoContents.value = memo.contents
+    }
+
+    fun memoCreated() {
+        _memoCreateUiState.value = MemoCreateUiState.Loading
+    }
+
+    fun memoEdited() {
+        _memoEditUiState.value = MemoEditUiState.Loading
+    }
+
+    fun memoDeleted() {
+        _memoDeleteUiState.value = MemoDeleteUiState.Loading
     }
 
     private fun clearTextField() {

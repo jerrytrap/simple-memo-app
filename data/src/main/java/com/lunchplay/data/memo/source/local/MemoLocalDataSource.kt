@@ -1,10 +1,11 @@
 package com.lunchplay.data.memo.source.local
 
+import androidx.paging.PagingData
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
 interface MemoLocalDataSource {
-    fun getMemos(): Flowable<List<MemoEntity>>
+    fun getMemos(): Flowable<PagingData<MemoEntity>>
 
     fun createMemo(memo: MemoEntity): Completable
 
