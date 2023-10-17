@@ -1,10 +1,10 @@
 package com.lunchplay.data.memo.source.local
 
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 interface MemoLocalDataSource {
-    fun getMemos(): Flowable<List<MemoEntity>>
+    fun getMemos(): Flow<List<MemoEntity>>
 
     fun createMemo(memo: MemoEntity): Completable
 

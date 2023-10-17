@@ -3,6 +3,7 @@ package com.lunchplay.ui.memo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
 import com.lunchplay.domain.usecase.DeleteMemo
@@ -14,6 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -26,8 +29,21 @@ class MemoViewModel @Inject constructor(
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
 
-    private val _memos = MutableLiveData<MemoUiState>()
-    val memos: LiveData<MemoUiState> = _memos
+    val memos: StateFlow<MemoUiState> = getMemos()
+        .map { memos ->
+            if (memos.isEmpty()) {
+                MemoUiState.Empty
+            } else {
+                MemoUiState.Success(memos.map { it.toUiModel() })
+            }
+        }.catch {
+            MemoUiState.Error
+        }
+        .stateIn(
+            initialValue = MemoUiState.Loading,
+            scope = viewModelScope,
+            started = WhileSubscribed(STOP_TIMEOUT_MILLIS)
+        )
 
     private val _memoCreateUiState = MutableLiveData<MemoCreateUiState>()
     val memoCreateUiState: LiveData<MemoCreateUiState> = _memoCreateUiState
@@ -40,28 +56,6 @@ class MemoViewModel @Inject constructor(
 
     val memoTitle = MutableLiveData<String>()
     val memoContents = MutableLiveData<String>()
-
-    init {
-        _memos.value = MemoUiState.Loading
-        fetchMemos()
-    }
-
-    private fun fetchMemos() {
-        disposable.add(
-            getMemos()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    _memos.value = if (result.isEmpty()) {
-                        MemoUiState.Empty
-                    } else {
-                        MemoUiState.Success(result.map{ it.toUiModel() })
-                    }
-                }, {
-                    _memos.value = MemoUiState.Error
-                })
-        )
-    }
 
     fun createMemo() {
         _memoCreateUiState.value = MemoCreateUiState.Loading
@@ -152,5 +146,6 @@ class MemoViewModel @Inject constructor(
     companion object {
         const val EMPTY_STRING = ""
         const val DEFAULT_MEMO_ID = 0
+        const val STOP_TIMEOUT_MILLIS = 5000L
     }
 }
