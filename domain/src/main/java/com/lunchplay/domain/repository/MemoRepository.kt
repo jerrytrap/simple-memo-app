@@ -9,7 +9,7 @@ interface MemoRepository {
 
     suspend fun createMemo(memo: Memo)
 
-    fun editMemo(memo: Memo): Completable
+    suspend fun editMemo(memo: Memo)
 
     fun deleteMemo(memo: Memo): Completable
 }

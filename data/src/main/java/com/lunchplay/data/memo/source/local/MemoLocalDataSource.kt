@@ -8,7 +8,7 @@ interface MemoLocalDataSource {
 
     suspend fun createMemo(memo: MemoEntity)
 
-    fun editMemo(memo: MemoEntity): Completable
+    suspend fun editMemo(memo: MemoEntity)
 
     fun deleteMemo(memo: MemoEntity): Completable
 }

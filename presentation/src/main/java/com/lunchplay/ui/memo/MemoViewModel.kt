@@ -49,8 +49,8 @@ class MemoViewModel @Inject constructor(
     private val _memoCreateUiState = MutableStateFlow<MemoCreateUiState>(MemoCreateUiState.Loading)
     val memoCreateUiState: StateFlow<MemoCreateUiState> = _memoCreateUiState
 
-    private val _memoEditUiState = MutableLiveData<MemoEditUiState>()
-    val memoEditUiState: LiveData<MemoEditUiState> = _memoEditUiState
+    private val _memoEditUiState = MutableStateFlow<MemoEditUiState>(MemoEditUiState.Loading)
+    val memoEditUiState: StateFlow<MemoEditUiState> = _memoEditUiState
 
     private val _memoDeleteUiState = MutableLiveData<MemoDeleteUiState>()
     val memoDeleteUiState: LiveData<MemoDeleteUiState> = _memoDeleteUiState
@@ -84,7 +84,6 @@ class MemoViewModel @Inject constructor(
     }
 
     fun editMemo(memo: MemoUiModel) {
-        _memoEditUiState.value = MemoEditUiState.Loading
         val title = memoTitle.value
         val contents = memoContents.value
 
@@ -98,17 +97,14 @@ class MemoViewModel @Inject constructor(
                 LocalDateTime.now().toString()
             )
 
-            disposable.add(
-                editMemo(newMemo)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        { _memoEditUiState.value = MemoEditUiState.Success },
-                        { _memoEditUiState.value = MemoEditUiState.Fail }
-                    )
-            )
-
-            clearTextField()
+            viewModelScope.launch {
+                try {
+                    editMemo(newMemo)
+                    _memoEditUiState.value = MemoEditUiState.Success
+                } catch (e: Exception) {
+                    _memoEditUiState.value = MemoEditUiState.Fail
+                }
+            }
         }
     }
 
@@ -132,6 +128,11 @@ class MemoViewModel @Inject constructor(
 
     fun memoCreated() {
         _memoCreateUiState.value = MemoCreateUiState.Loading
+        clearTextField()
+    }
+
+    fun memoEdited() {
+        _memoEditUiState.value = MemoEditUiState.Loading
         clearTextField()
     }
 

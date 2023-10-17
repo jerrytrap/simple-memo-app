@@ -13,7 +13,7 @@ interface MemoDao {
     suspend fun createMemo(memo: MemoEntity)
 
     @Update
-    fun editMemo(memo: MemoEntity): Completable
+    suspend fun editMemo(memo: MemoEntity)
 
     @Delete
     fun deleteMemo(memo: MemoEntity): Completable
