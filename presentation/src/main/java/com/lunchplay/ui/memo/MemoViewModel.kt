@@ -26,8 +26,8 @@ class MemoViewModel @Inject constructor(
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
 
-    private val _memos = MutableLiveData<MemoUiState>()
-    val memos: LiveData<MemoUiState> = _memos
+    private val _memos = MutableLiveData<MemoListUiState>()
+    val memos: LiveData<MemoListUiState> = _memos
 
     private val _memoCreateUiState = MutableLiveData<MemoCreateUiState>()
     val memoCreateUiState: LiveData<MemoCreateUiState> = _memoCreateUiState
@@ -42,7 +42,7 @@ class MemoViewModel @Inject constructor(
     val memoContents = MutableLiveData<String>()
 
     init {
-        _memos.value = MemoUiState.Loading
+        _memos.value = MemoListUiState.Loading
         fetchMemos()
     }
 
@@ -53,12 +53,12 @@ class MemoViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
                     _memos.value = if (result.isEmpty()) {
-                        MemoUiState.Empty
+                        MemoListUiState.Empty
                     } else {
-                        MemoUiState.Success(result.map{ it.toUiModel() })
+                        MemoListUiState.Success(result.map{ it.toUiModel() })
                     }
                 }, {
-                    _memos.value = MemoUiState.Error
+                    _memos.value = MemoListUiState.Fail
                 })
         )
     }
