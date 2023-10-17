@@ -1,6 +1,5 @@
 package com.lunchplay.ui.memo
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lunchplay.domain.entity.Memo
@@ -49,14 +48,14 @@ class MemoViewModel @Inject constructor(
     private val _memoDeleteUiState = MutableStateFlow<MemoDeleteUiState>(MemoDeleteUiState.Loading)
     val memoDeleteUiState: StateFlow<MemoDeleteUiState> = _memoDeleteUiState
 
-    val memoTitle = MutableLiveData<String>()
-    val memoContents = MutableLiveData<String>()
+    val memoTitle = MutableStateFlow(EMPTY_STRING)
+    val memoContents = MutableStateFlow(EMPTY_STRING)
 
     fun createMemo() {
         val title = memoTitle.value
         val contents = memoContents.value
 
-        if (title.isNullOrEmpty() || contents.isNullOrEmpty()) {
+        if (title.isEmpty() || contents.isEmpty()) {
             _memoCreateUiState.value = MemoCreateUiState.Empty
         } else {
             val newMemo = Memo(
@@ -81,7 +80,7 @@ class MemoViewModel @Inject constructor(
         val title = memoTitle.value
         val contents = memoContents.value
 
-        if (title.isNullOrEmpty() || contents.isNullOrEmpty()) {
+        if (title.isEmpty() || contents.isEmpty()) {
             _memoEditUiState.value = MemoEditUiState.Empty
         } else {
             val newMemo = Memo(
