@@ -5,7 +5,7 @@ sealed class MemoCreateUiState {
 
     object Empty : MemoCreateUiState()
 
-    object Fail : MemoCreateUiState()
+    object Error : MemoCreateUiState()
 
     object Loading : MemoCreateUiState()
 }

@@ -24,18 +24,18 @@ class MemoViewModel @Inject constructor(
     private val editMemo: EditMemo,
     private val deleteMemo: DeleteMemo
 ) : ViewModel() {
-    val memos: StateFlow<MemoUiState> = getMemos()
+    val memoListUiState: StateFlow<MemoListUiState> = getMemos()
         .map { memos ->
             if (memos.isEmpty()) {
-                MemoUiState.Empty
+                MemoListUiState.Empty
             } else {
-                MemoUiState.Success(memos.map { it.toUiModel() })
+                MemoListUiState.Success(memos.map { it.toUiModel() })
             }
         }.catch {
-            MemoUiState.Error
+            MemoListUiState.Error
         }
         .stateIn(
-            initialValue = MemoUiState.Loading,
+            initialValue = MemoListUiState.Loading,
             scope = viewModelScope,
             started = WhileSubscribed(STOP_TIMEOUT_MILLIS)
         )
@@ -71,7 +71,7 @@ class MemoViewModel @Inject constructor(
                     createMemo(newMemo)
                     _memoCreateUiState.value = MemoCreateUiState.Success
                 } catch (e: Exception) {
-                    _memoCreateUiState.value = MemoCreateUiState.Fail
+                    _memoCreateUiState.value = MemoCreateUiState.Error
                 }
             }
         }
@@ -96,7 +96,7 @@ class MemoViewModel @Inject constructor(
                     editMemo(newMemo)
                     _memoEditUiState.value = MemoEditUiState.Success
                 } catch (e: Exception) {
-                    _memoEditUiState.value = MemoEditUiState.Fail
+                    _memoEditUiState.value = MemoEditUiState.Error
                 }
             }
         }
@@ -108,7 +108,7 @@ class MemoViewModel @Inject constructor(
                 deleteMemo(memo.toMemo())
                 _memoDeleteUiState.value = MemoDeleteUiState.Success
             } catch (e: Exception) {
-                _memoDeleteUiState.value = MemoDeleteUiState.Fail
+                _memoDeleteUiState.value = MemoDeleteUiState.Error
             }
         }
     }

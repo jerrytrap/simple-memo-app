@@ -48,7 +48,7 @@ class MemoEditFragment : BaseFragment<FragmentMemoEditBinding>(R.layout.fragment
                         is MemoEditUiState.Empty -> {
                             showToast(R.string.title_or_contents_empty)
                         }
-                        is MemoEditUiState.Fail -> {
+                        is MemoEditUiState.Error -> {
                             showToast(R.string.memo_edit_fail)
                         }
                         is MemoEditUiState.Loading -> Unit

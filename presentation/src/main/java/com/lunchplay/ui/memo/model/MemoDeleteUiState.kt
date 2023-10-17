@@ -3,7 +3,7 @@ package com.lunchplay.ui.memo.model
 sealed class MemoDeleteUiState {
     object Success : MemoDeleteUiState()
 
-    object Fail : MemoDeleteUiState()
+    object Error : MemoDeleteUiState()
 
     object Loading : MemoDeleteUiState()
 }

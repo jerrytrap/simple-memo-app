@@ -41,7 +41,7 @@ class MemoCreateFragment : BaseFragment<FragmentMemoCreateBinding>(R.layout.frag
                         is MemoCreateUiState.Empty -> {
                             showToast(R.string.title_or_contents_empty)
                         }
-                        is MemoCreateUiState.Fail -> {
+                        is MemoCreateUiState.Error -> {
                             showToast(R.string.memo_create_fail)
                         }
                         is MemoCreateUiState.Loading -> Unit

@@ -5,7 +5,7 @@ sealed class MemoEditUiState {
 
     object Empty : MemoEditUiState()
 
-    object Fail : MemoEditUiState()
+    object Error : MemoEditUiState()
 
     object Loading : MemoEditUiState()
 }
