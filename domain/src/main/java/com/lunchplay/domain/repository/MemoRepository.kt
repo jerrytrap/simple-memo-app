@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface MemoRepository {
     fun getMemos(): Flow<List<Memo>>
 
-    fun createMemo(memo: Memo): Completable
+    suspend fun createMemo(memo: Memo)
 
     fun editMemo(memo: Memo): Completable
 

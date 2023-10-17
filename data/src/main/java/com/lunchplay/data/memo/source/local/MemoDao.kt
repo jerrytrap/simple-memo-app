@@ -10,7 +10,7 @@ interface MemoDao {
     fun getMemos(): Flow<List<MemoEntity>>
 
     @Insert
-    fun createMemo(memo: MemoEntity): Completable
+    suspend fun createMemo(memo: MemoEntity)
 
     @Update
     fun editMemo(memo: MemoEntity): Completable

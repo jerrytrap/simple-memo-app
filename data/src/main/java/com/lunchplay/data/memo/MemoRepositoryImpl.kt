@@ -16,7 +16,7 @@ class MemoRepositoryImpl @Inject constructor(
             memos.map { it.toMemo() }
         }
 
-    override fun createMemo(memo: Memo) = memoLocalDataSource.createMemo(memo.toMemoEntity())
+    override suspend fun createMemo(memo: Memo) = memoLocalDataSource.createMemo(memo.toMemoEntity())
 
     override fun editMemo(memo: Memo) = memoLocalDataSource.editMemo(memo.toMemoEntity())
 

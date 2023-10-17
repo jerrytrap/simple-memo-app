@@ -8,7 +8,7 @@ class MemoLocalDataSourceImpl @Inject constructor(
 ) : MemoLocalDataSource {
     override fun getMemos(): Flow<List<MemoEntity>> = memoDao.getMemos()
 
-    override fun createMemo(memo: MemoEntity) = memoDao.createMemo(memo)
+    override suspend fun createMemo(memo: MemoEntity) = memoDao.createMemo(memo)
 
     override fun editMemo(memo: MemoEntity) = memoDao.editMemo(memo)
 

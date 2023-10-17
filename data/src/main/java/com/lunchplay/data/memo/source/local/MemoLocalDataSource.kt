@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface MemoLocalDataSource {
     fun getMemos(): Flow<List<MemoEntity>>
 
-    fun createMemo(memo: MemoEntity): Completable
+    suspend fun createMemo(memo: MemoEntity)
 
     fun editMemo(memo: MemoEntity): Completable
 

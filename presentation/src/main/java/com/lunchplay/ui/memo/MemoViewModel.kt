@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -45,8 +46,8 @@ class MemoViewModel @Inject constructor(
             started = WhileSubscribed(STOP_TIMEOUT_MILLIS)
         )
 
-    private val _memoCreateUiState = MutableLiveData<MemoCreateUiState>()
-    val memoCreateUiState: LiveData<MemoCreateUiState> = _memoCreateUiState
+    private val _memoCreateUiState = MutableStateFlow<MemoCreateUiState>(MemoCreateUiState.Loading)
+    val memoCreateUiState: StateFlow<MemoCreateUiState> = _memoCreateUiState
 
     private val _memoEditUiState = MutableLiveData<MemoEditUiState>()
     val memoEditUiState: LiveData<MemoEditUiState> = _memoEditUiState
@@ -58,7 +59,6 @@ class MemoViewModel @Inject constructor(
     val memoContents = MutableLiveData<String>()
 
     fun createMemo() {
-        _memoCreateUiState.value = MemoCreateUiState.Loading
         val title = memoTitle.value
         val contents = memoContents.value
 
@@ -72,17 +72,14 @@ class MemoViewModel @Inject constructor(
                 LocalDateTime.now().toString()
             )
 
-            disposable.add(
-                createMemo(newMemo)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        { _memoCreateUiState.value = MemoCreateUiState.Success },
-                        { _memoCreateUiState.value = MemoCreateUiState.Fail }
-                    )
-            )
-
-            clearTextField()
+            viewModelScope.launch {
+                try {
+                    createMemo(newMemo)
+                    _memoCreateUiState.value = MemoCreateUiState.Success
+                } catch (e: Exception) {
+                    _memoCreateUiState.value = MemoCreateUiState.Fail
+                }
+            }
         }
     }
 
@@ -131,6 +128,11 @@ class MemoViewModel @Inject constructor(
     fun setTextField(memo: MemoUiModel) {
         memoTitle.value = memo.title
         memoContents.value = memo.contents
+    }
+
+    fun memoCreated() {
+        _memoCreateUiState.value = MemoCreateUiState.Loading
+        clearTextField()
     }
 
     private fun clearTextField() {
