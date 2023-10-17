@@ -28,14 +28,16 @@ class MemoCreateFragment : BaseFragment<FragmentMemoCreateBinding>(R.layout.frag
             when (state) {
                 is MemoCreateUiState.Success -> {
                     showToast(R.string.memo_create_success)
-                    viewModel.memoCreated()
+                    viewModel.memoCreateMessageShown()
                     findNavController().popBackStack()
                 }
                 is MemoCreateUiState.Empty -> {
                     showToast(R.string.title_or_contents_empty)
+                    viewModel.memoCreateMessageShown()
                 }
                 is MemoCreateUiState.Fail -> {
                     showToast(R.string.memo_create_fail)
+                    viewModel.memoCreateMessageShown()
                 }
                 is MemoCreateUiState.Loading -> Unit
             }

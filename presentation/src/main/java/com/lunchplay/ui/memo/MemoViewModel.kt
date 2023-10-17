@@ -29,8 +29,8 @@ class MemoViewModel @Inject constructor(
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
 
-    private val _memos = MutableLiveData<MemoUiState>()
-    val memos: LiveData<MemoUiState> = _memos
+    private val _memos = MutableLiveData<MemoListUiState>()
+    val memos: LiveData<MemoListUiState> = _memos
 
     private val _memoCreateUiState = MutableLiveData<MemoCreateUiState>()
     val memoCreateUiState: LiveData<MemoCreateUiState> = _memoCreateUiState
@@ -45,7 +45,7 @@ class MemoViewModel @Inject constructor(
     val memoContents = MutableLiveData<String>()
 
     init {
-        _memos.value = MemoUiState.Loading
+        _memos.value = MemoListUiState.Loading
         fetchMemos()
     }
 
@@ -56,8 +56,8 @@ class MemoViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { result -> _memos.value = MemoUiState.Success(result.map{ it.toUiModel() }) },
-                    { _memos.value = MemoUiState.Error }
+                    { result -> _memos.value = MemoListUiState.Success(result.map{ it.toUiModel() }) },
+                    { _memos.value = MemoListUiState.Fail }
                 )
         )
     }
@@ -85,8 +85,6 @@ class MemoViewModel @Inject constructor(
                         { _memoCreateUiState.value = MemoCreateUiState.Fail }
                     )
             )
-
-            clearTextField()
         }
     }
 
@@ -113,8 +111,6 @@ class MemoViewModel @Inject constructor(
                         { _memoEditUiState.value = MemoEditUiState.Fail }
                     )
             )
-
-            clearTextField()
         }
     }
 
@@ -135,16 +131,19 @@ class MemoViewModel @Inject constructor(
         memoContents.value = memo.contents
     }
 
-    fun memoCreated() {
+    fun memoCreateMessageShown() {
         _memoCreateUiState.value = MemoCreateUiState.Loading
+        clearTextField()
     }
 
-    fun memoEdited() {
+    fun memoEditMessageShown() {
         _memoEditUiState.value = MemoEditUiState.Loading
+        clearTextField()
     }
 
-    fun memoDeleted() {
+    fun memoDeleteMessageShown() {
         _memoDeleteUiState.value = MemoDeleteUiState.Loading
+        clearTextField()
     }
 
     private fun clearTextField() {

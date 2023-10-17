@@ -35,14 +35,16 @@ class MemoEditFragment : BaseFragment<FragmentMemoEditBinding>(R.layout.fragment
             when (state) {
                 is MemoEditUiState.Success -> {
                     showToast(R.string.memo_edit_success)
-                    viewModel.memoEdited()
+                    viewModel.memoEditMessageShown()
                     findNavController().popBackStack(R.id.memoListFragment, false)
                 }
                 is MemoEditUiState.Empty -> {
                     showToast(R.string.title_or_contents_empty)
+                    viewModel.memoEditMessageShown()
                 }
                 is MemoEditUiState.Fail -> {
                     showToast(R.string.memo_edit_fail)
+                    viewModel.memoEditMessageShown()
                 }
                 is MemoEditUiState.Loading -> Unit
             }
