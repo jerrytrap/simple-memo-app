@@ -7,5 +7,5 @@ import javax.inject.Inject
 class DeleteMemo @Inject constructor(
     private val memoRepository: MemoRepository
 ) {
-    operator fun invoke(memo: Memo) = memoRepository.deleteMemo(memo)
+    suspend operator fun invoke(memo: Memo) = memoRepository.deleteMemo(memo)
 }

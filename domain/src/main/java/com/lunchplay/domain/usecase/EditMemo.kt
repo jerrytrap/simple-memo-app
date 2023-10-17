@@ -7,5 +7,5 @@ import javax.inject.Inject
 class EditMemo @Inject constructor(
     private val memoRepository: MemoRepository
 ) {
-    operator fun invoke(memo: Memo) = memoRepository.editMemo(memo)
+    suspend operator fun invoke(memo: Memo) = memoRepository.editMemo(memo)
 }

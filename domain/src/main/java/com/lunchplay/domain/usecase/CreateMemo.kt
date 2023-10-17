@@ -7,5 +7,5 @@ import javax.inject.Inject
 class CreateMemo @Inject constructor(
     private val memoRepository: MemoRepository
 ){
-    operator fun invoke(memo: Memo) = memoRepository.createMemo(memo)
+    suspend operator fun invoke(memo: Memo) = memoRepository.createMemo(memo)
 }

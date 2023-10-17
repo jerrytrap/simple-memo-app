@@ -2,6 +2,9 @@ package com.lunchplay.ui.memo.fragment
 
 import android.os.Bundle
 import android.view.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -9,6 +12,8 @@ import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoDetailBinding
 import com.lunchplay.ui.memo.base.BaseFragment
 import com.lunchplay.ui.memo.model.MemoDeleteUiState
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.fragment_memo_detail) {
     private val args: MemoDetailFragmentArgs by navArgs()
@@ -42,16 +47,22 @@ class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.frag
     }
 
     private fun observeUpdateState() {
-        viewModel.memoDeleteUiState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is MemoDeleteUiState.Success -> {
-                    showToast(R.string.memo_delete_success)
-                    findNavController().popBackStack()
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.memoDeleteUiState.collectLatest { state ->
+                    when (state) {
+                        is MemoDeleteUiState.Success -> {
+                            showToast(R.string.memo_delete_success)
+                            findNavController().popBackStack()
+                            viewModel.memoDeleteMessageShown()
+                        }
+                        is MemoDeleteUiState.Error -> {
+                            showToast(R.string.memo_delete_fail)
+                            viewModel.memoDeleteMessageShown()
+                        }
+                        is MemoDeleteUiState.Loading -> Unit
+                    }
                 }
-                is MemoDeleteUiState.Fail -> {
-                    showToast(R.string.memo_delete_fail)
-                }
-                is MemoDeleteUiState.Loading -> Unit
             }
         }
     }

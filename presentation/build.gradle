@@ -49,15 +49,10 @@ dependencies {
     //module
     implementation project(path: ':domain')
 
-    //rxjava2
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
-
     //room
     implementation 'androidx.room:room-runtime:2.5.2'
     annotationProcessor 'androidx.room:room-compiler:2.5.2'
     kapt 'androidx.room:room-compiler:2.5.2'
-    implementation 'androidx.room:room-rxjava2:2.5.2'
 
     //hilt
     implementation 'com.google.dagger:hilt-android:2.44'

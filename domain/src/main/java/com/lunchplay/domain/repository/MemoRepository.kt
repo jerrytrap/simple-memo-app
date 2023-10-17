@@ -1,15 +1,14 @@
 package com.lunchplay.domain.repository
 
 import com.lunchplay.domain.entity.Memo
-import io.reactivex.Completable
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 interface MemoRepository {
-    fun getMemos(): Flowable<List<Memo>>
+    fun getMemos(): Flow<List<Memo>>
 
-    fun createMemo(memo: Memo): Completable
+    suspend fun createMemo(memo: Memo)
 
-    fun editMemo(memo: Memo): Completable
+    suspend fun editMemo(memo: Memo)
 
-    fun deleteMemo(memo: Memo): Completable
+    suspend fun deleteMemo(memo: Memo)
 }
