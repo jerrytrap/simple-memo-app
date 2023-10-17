@@ -11,7 +11,6 @@ import com.lunchplay.domain.usecase.GetMemos
 import com.lunchplay.ui.memo.mapper.toUiModel
 import com.lunchplay.ui.memo.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
@@ -25,8 +24,6 @@ class MemoViewModel @Inject constructor(
     private val editMemo: EditMemo,
     private val deleteMemo: DeleteMemo
 ) : ViewModel() {
-    private val disposable = CompositeDisposable()
-
     val memos: StateFlow<MemoUiState> = getMemos()
         .map { memos ->
             if (memos.isEmpty()) {
@@ -139,11 +136,6 @@ class MemoViewModel @Inject constructor(
     private fun clearTextField() {
         memoTitle.value = EMPTY_STRING
         memoContents.value = EMPTY_STRING
-    }
-
-    override fun onCleared() {
-        disposable.dispose()
-        super.onCleared()
     }
 
     companion object {
