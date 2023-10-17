@@ -1,6 +1,5 @@
 package com.lunchplay.ui.memo
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,9 +11,7 @@ import com.lunchplay.domain.usecase.GetMemos
 import com.lunchplay.ui.memo.mapper.toUiModel
 import com.lunchplay.ui.memo.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
@@ -52,8 +49,8 @@ class MemoViewModel @Inject constructor(
     private val _memoEditUiState = MutableStateFlow<MemoEditUiState>(MemoEditUiState.Loading)
     val memoEditUiState: StateFlow<MemoEditUiState> = _memoEditUiState
 
-    private val _memoDeleteUiState = MutableLiveData<MemoDeleteUiState>()
-    val memoDeleteUiState: LiveData<MemoDeleteUiState> = _memoDeleteUiState
+    private val _memoDeleteUiState = MutableStateFlow<MemoDeleteUiState>(MemoDeleteUiState.Loading)
+    val memoDeleteUiState: StateFlow<MemoDeleteUiState> = _memoDeleteUiState
 
     val memoTitle = MutableLiveData<String>()
     val memoContents = MutableLiveData<String>()
@@ -109,16 +106,14 @@ class MemoViewModel @Inject constructor(
     }
 
     fun deleteMemo(memo: MemoUiModel) {
-        _memoDeleteUiState.value = MemoDeleteUiState.Loading
-        disposable.add(
-            deleteMemo(memo.toMemo())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { _memoDeleteUiState.value = MemoDeleteUiState.Success },
-                    { _memoDeleteUiState.value = MemoDeleteUiState.Fail }
-                )
-        )
+        viewModelScope.launch {
+            try {
+                deleteMemo(memo.toMemo())
+                _memoDeleteUiState.value = MemoDeleteUiState.Success
+            } catch (e: Exception) {
+                _memoDeleteUiState.value = MemoDeleteUiState.Fail
+            }
+        }
     }
 
     fun setTextField(memo: MemoUiModel) {
@@ -133,6 +128,11 @@ class MemoViewModel @Inject constructor(
 
     fun memoEdited() {
         _memoEditUiState.value = MemoEditUiState.Loading
+        clearTextField()
+    }
+
+    fun memoDeleted() {
+        _memoDeleteUiState.value = MemoDeleteUiState.Loading
         clearTextField()
     }
 

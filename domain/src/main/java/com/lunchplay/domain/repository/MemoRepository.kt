@@ -1,7 +1,6 @@
 package com.lunchplay.domain.repository
 
 import com.lunchplay.domain.entity.Memo
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 
 interface MemoRepository {
@@ -11,5 +10,5 @@ interface MemoRepository {
 
     suspend fun editMemo(memo: Memo)
 
-    fun deleteMemo(memo: Memo): Completable
+    suspend fun deleteMemo(memo: Memo)
 }

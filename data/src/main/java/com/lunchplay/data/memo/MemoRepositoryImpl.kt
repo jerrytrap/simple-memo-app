@@ -20,5 +20,5 @@ class MemoRepositoryImpl @Inject constructor(
 
     override suspend fun editMemo(memo: Memo) = memoLocalDataSource.editMemo(memo.toMemoEntity())
 
-    override fun deleteMemo(memo: Memo) = memoLocalDataSource.deleteMemo(memo.toMemoEntity())
+    override suspend fun deleteMemo(memo: Memo) = memoLocalDataSource.deleteMemo(memo.toMemoEntity())
 }

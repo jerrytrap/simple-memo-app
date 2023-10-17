@@ -1,6 +1,5 @@
 package com.lunchplay.data.memo.source.local
 
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 
 interface MemoLocalDataSource {
@@ -10,5 +9,5 @@ interface MemoLocalDataSource {
 
     suspend fun editMemo(memo: MemoEntity)
 
-    fun deleteMemo(memo: MemoEntity): Completable
+    suspend fun deleteMemo(memo: MemoEntity)
 }

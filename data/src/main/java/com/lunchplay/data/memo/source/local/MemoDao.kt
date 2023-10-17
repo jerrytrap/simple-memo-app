@@ -1,7 +1,6 @@
 package com.lunchplay.data.memo.source.local
 
 import androidx.room.*
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,5 +15,5 @@ interface MemoDao {
     suspend fun editMemo(memo: MemoEntity)
 
     @Delete
-    fun deleteMemo(memo: MemoEntity): Completable
+    suspend fun deleteMemo(memo: MemoEntity)
 }
