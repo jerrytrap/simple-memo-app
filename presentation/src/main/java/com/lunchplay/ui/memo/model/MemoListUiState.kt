@@ -2,12 +2,12 @@ package com.lunchplay.ui.memo.model
 
 import androidx.paging.PagingData
 
-sealed class MemoUiState {
-    object Loading : MemoUiState()
+sealed class MemoListUiState {
+    object Loading : MemoListUiState()
 
-    object Error : MemoUiState()
+    object Fail : MemoListUiState()
 
     data class Success(
         val memos: PagingData<MemoUiModel>
-    ) : MemoUiState()
+    ) : MemoListUiState()
 }

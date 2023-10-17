@@ -11,7 +11,7 @@ import com.lunchplay.ui.databinding.FragmentMemoListBinding
 import com.lunchplay.ui.memo.adapter.MemoAdapter
 import com.lunchplay.ui.memo.base.BaseFragment
 import com.lunchplay.ui.memo.model.MemoUiModel
-import com.lunchplay.ui.memo.model.MemoUiState
+import com.lunchplay.ui.memo.model.MemoListUiState
 
 class MemoListFragment : BaseFragment<FragmentMemoListBinding>(R.layout.fragment_memo_list) {
     private val adapter = MemoAdapter()
@@ -31,11 +31,11 @@ class MemoListFragment : BaseFragment<FragmentMemoListBinding>(R.layout.fragment
         }
 
         viewModel.memos.observe(viewLifecycleOwner) { result ->
-            binding.progressIndicatorMemoList.isVisible = result is MemoUiState.Loading
-            binding.recyclerViewMemoList.isVisible = result is MemoUiState.Success
-            binding.textViewError.isVisible = result is MemoUiState.Error
+            binding.progressIndicatorMemoList.isVisible = result is MemoListUiState.Loading
+            binding.recyclerViewMemoList.isVisible = result is MemoListUiState.Success
+            binding.textViewError.isVisible = result is MemoListUiState.Fail
 
-            if (result is MemoUiState.Success) {
+            if (result is MemoListUiState.Success) {
                 adapter.submitData(lifecycle, result.memos)
             }
         }
