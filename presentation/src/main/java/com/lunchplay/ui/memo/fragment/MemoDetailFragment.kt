@@ -54,10 +54,11 @@ class MemoDetailFragment : BaseFragment<FragmentMemoDetailBinding>(R.layout.frag
                         is MemoDeleteUiState.Success -> {
                             showToast(R.string.memo_delete_success)
                             findNavController().popBackStack()
-                            viewModel.memoDeleted()
+                            viewModel.memoDeleteMessageShown()
                         }
                         is MemoDeleteUiState.Error -> {
                             showToast(R.string.memo_delete_fail)
+                            viewModel.memoDeleteMessageShown()
                         }
                         is MemoDeleteUiState.Loading -> Unit
                     }

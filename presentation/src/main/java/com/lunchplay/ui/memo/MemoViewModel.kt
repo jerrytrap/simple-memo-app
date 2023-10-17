@@ -117,17 +117,17 @@ class MemoViewModel @Inject constructor(
         memoContents.value = memo.contents
     }
 
-    fun memoCreated() {
+    fun memoCreateMessageShown() {
         _memoCreateUiState.value = MemoCreateUiState.Loading
         clearTextField()
     }
 
-    fun memoEdited() {
+    fun memoEditMessageShown() {
         _memoEditUiState.value = MemoEditUiState.Loading
         clearTextField()
     }
 
-    fun memoDeleted() {
+    fun memoDeleteMessageShown() {
         _memoDeleteUiState.value = MemoDeleteUiState.Loading
         clearTextField()
     }
