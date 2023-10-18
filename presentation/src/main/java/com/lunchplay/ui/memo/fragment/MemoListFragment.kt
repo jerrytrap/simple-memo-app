@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lunchplay.ui.R
 import com.lunchplay.ui.databinding.FragmentMemoListBinding
 import com.lunchplay.ui.memo.adapter.MemoAdapter
@@ -38,15 +39,30 @@ class MemoListFragment : BaseFragment<FragmentMemoListBinding>(R.layout.fragment
                 viewModel.memoListUiState.collect { result ->
                     binding.progressIndicatorMemoList.isVisible = result is MemoListUiState.Loading
                     binding.recyclerViewMemoList.isVisible = result is MemoListUiState.Success
-                    binding.textViewEmpty.isVisible = result is MemoListUiState.Empty
-                    binding.textViewError.isVisible = result is MemoListUiState.Error
+                    binding.textViewError.isVisible = result is MemoListUiState.Fail
 
                     if (result is MemoListUiState.Success) {
-                        adapter.submitList(result.memos)
+                        adapter.submitData(lifecycle, result.memos)
                     }
                 }
             }
         }
+
+        adapter.addLoadStateListener {
+            if (it.append.endOfPaginationReached) {
+                binding.textViewEmpty.isVisible = adapter.itemCount == 0
+            } else {
+                binding.textViewEmpty.isVisible = false
+            }
+        }
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0) {
+                    binding.recyclerViewMemoList.scrollToPosition(0)
+                }
+            }
+        })
     }
 
     private fun setItemClickListener() {

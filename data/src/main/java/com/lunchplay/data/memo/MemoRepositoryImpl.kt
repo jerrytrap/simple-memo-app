@@ -1,5 +1,7 @@
 package com.lunchplay.data.memo
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.lunchplay.data.mapper.toMemoEntity
 import com.lunchplay.data.memo.source.local.MemoLocalDataSource
 import com.lunchplay.domain.entity.Memo
@@ -11,9 +13,9 @@ import javax.inject.Inject
 class MemoRepositoryImpl @Inject constructor(
     private val memoLocalDataSource: MemoLocalDataSource
 ) : MemoRepository {
-    override fun getMemos(): Flow<List<Memo>> =
-        memoLocalDataSource.getMemos().map { memos ->
-            memos.map { it.toMemo() }
+    override fun getMemos(): Flow<PagingData<Memo>> =
+        memoLocalDataSource.getMemos().map { pagingData ->
+            pagingData.map { it.toMemo() }
         }
 
     override suspend fun createMemo(memo: Memo) = memoLocalDataSource.createMemo(memo.toMemoEntity())
