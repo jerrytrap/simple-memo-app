@@ -2,6 +2,8 @@ package com.lunchplay.ui.memo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
 import com.lunchplay.domain.usecase.DeleteMemo
@@ -24,16 +26,12 @@ class MemoViewModel @Inject constructor(
     private val deleteMemo: DeleteMemo
 ) : ViewModel() {
     val memoListUiState: StateFlow<MemoListUiState> = getMemos()
+        .cachedIn(viewModelScope)
         .map { memos ->
-            if (memos.isEmpty()) {
-                MemoListUiState.Empty
-            } else {
-                MemoListUiState.Success(memos.map { it.toUiModel() })
-            }
+            MemoListUiState.Success(memos.map { it.toUiModel() })
         }.catch {
-            MemoListUiState.Error
-        }
-        .stateIn(
+            MemoListUiState.Fail
+        }.stateIn(
             initialValue = MemoListUiState.Loading,
             scope = viewModelScope,
             started = WhileSubscribed(STOP_TIMEOUT_MILLIS)
