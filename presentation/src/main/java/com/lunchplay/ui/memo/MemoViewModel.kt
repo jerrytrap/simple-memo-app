@@ -32,8 +32,7 @@ class MemoViewModel @Inject constructor(
             }
         }.catch {
             MemoListUiState.Error
-        }
-        .stateIn(
+        }.stateIn(
             initialValue = MemoListUiState.Loading,
             scope = viewModelScope,
             started = WhileSubscribed(STOP_TIMEOUT_MILLIS)
