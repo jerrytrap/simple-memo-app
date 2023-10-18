@@ -30,7 +30,7 @@ class MemoListFragment : BaseFragment<FragmentMemoListBinding>(R.layout.fragment
             layoutManager = LinearLayoutManager(context)
         }
 
-        viewModel.memos.observe(viewLifecycleOwner) { result ->
+        viewModel.memoListUiState.observe(viewLifecycleOwner) { result ->
             binding.progressIndicatorMemoList.isVisible = result is MemoListUiState.Loading
             binding.recyclerViewMemoList.isVisible = result is MemoListUiState.Success
             binding.textViewError.isVisible = result is MemoListUiState.Fail
