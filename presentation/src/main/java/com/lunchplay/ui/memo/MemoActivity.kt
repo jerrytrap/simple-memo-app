@@ -11,7 +11,7 @@ class MemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MemoListScreen()
+            MemoApp()
         }
     }
 }

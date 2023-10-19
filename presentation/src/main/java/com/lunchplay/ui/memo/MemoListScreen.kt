@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
 import com.lunchplay.ui.memo.model.MemoListUiState
 import com.lunchplay.ui.memo.model.MemoUiModel
@@ -31,13 +31,18 @@ import com.lunchplay.ui.memo.model.WrittenTime
 import java.time.LocalDateTime
 
 @Composable
-fun MemoListScreen() {
-    val viewModel: MemoViewModel = viewModel()
+fun MemoListScreen(
+    onItemClick: (MemoUiModel) -> Unit
+) {
+    val viewModel: MemoViewModel = hiltViewModel()
 
     val memoListUiState by viewModel.memoListUiState.collectAsState(initial = MemoListUiState.Loading)
     when (memoListUiState) {
         is MemoListUiState.Success -> {
-            ShowMemoList(memoListUiState = memoListUiState)
+            ShowMemoList(
+                memoListUiState = memoListUiState,
+                onItemClick = onItemClick
+            )
         }
         is MemoListUiState.Empty -> {
             ShowTextAtCenter(R.string.info_new_memo)
@@ -54,13 +59,17 @@ fun MemoListScreen() {
 }
 
 @Composable
-fun ShowMemoList(memoListUiState: MemoListUiState) {
+fun ShowMemoList(
+    memoListUiState: MemoListUiState,
+    onItemClick: (MemoUiModel) -> Unit
+) {
     LazyColumn(Modifier.fillMaxSize()) {
         val data = (memoListUiState as MemoListUiState.Success).memos
         items(data) { item ->
-            MemoListItem(item) {
-                //Navigate to DetailScreen
-            }
+            MemoListItem(
+                item = item,
+                onclick = { onItemClick(item) }
+            )
         }
     }
 }
@@ -125,16 +134,18 @@ fun MemoListItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onclick)
-            .padding(20.dp),
+            .padding(10.dp),
         horizontalArrangement = SpaceBetween,
     ) {
         Text(
             text = item.title,
             fontSize = 20.sp,
+            modifier = Modifier.padding(10.dp)
         )
         Text(
             text = dateText,
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            modifier = Modifier.padding(10.dp)
         )
     }
 }
