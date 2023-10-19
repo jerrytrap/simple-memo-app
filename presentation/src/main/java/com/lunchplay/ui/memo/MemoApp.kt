@@ -31,7 +31,10 @@ fun MemoNavHost(
             val memoInfo = navController.previousBackStackEntry?.savedStateHandle?.get<MemoUiModel>("memoInfo")
 
             if (memoInfo != null) {
-                MemoDetailScreen(memoInfo)
+                MemoDetailScreen(
+                    memo = memoInfo,
+                    onBackButtonClick = { navController.popBackStack() }
+                )
             }
         }
     }

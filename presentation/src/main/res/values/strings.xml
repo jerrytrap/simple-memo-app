@@ -22,4 +22,6 @@
     <string name="memo_delete_alert_message">"정말 삭제하시겠습니까?"</string>
     <string name="dismiss">"취소"</string>
     <string name="confirm">"확인"</string>
+    <string name="back">"뒤로가기"</string>
+    <string name="menu">"메뉴"</string>
 </resources>
