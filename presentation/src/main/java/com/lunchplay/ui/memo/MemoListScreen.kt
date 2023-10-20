@@ -11,7 +11,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,7 +32,8 @@ import java.time.LocalDateTime
 
 @Composable
 fun MemoListScreen(
-    onItemClick: (MemoUiModel) -> Unit
+    onItemClick: (MemoUiModel) -> Unit,
+    onCreateButtonClick: () -> Unit
 ) {
     val viewModel: MemoViewModel = hiltViewModel()
 
@@ -54,7 +55,7 @@ fun MemoListScreen(
     }
 
     ShowMemoCreateButton {
-        //Navigate to CreateScreen
+        onCreateButtonClick()
     }
 }
 
@@ -99,7 +100,7 @@ fun ShowMemoCreateButton(onclick: () -> Unit) {
     ) {
         FloatingActionButton(onClick = onclick) {
             Icon(
-                imageVector = Icons.Filled.Add,
+                imageVector = Icons.Filled.Create,
                 contentDescription = stringResource(id = R.string.create_memo)
             )
         }

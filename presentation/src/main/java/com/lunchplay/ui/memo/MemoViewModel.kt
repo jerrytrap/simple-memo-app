@@ -50,10 +50,7 @@ class MemoViewModel @Inject constructor(
     val memoTitle = MutableStateFlow(EMPTY_STRING)
     val memoContents = MutableStateFlow(EMPTY_STRING)
 
-    fun createMemo() {
-        val title = memoTitle.value
-        val contents = memoContents.value
-
+    fun createMemo(title: String, contents: String) {
         if (title.isEmpty() || contents.isEmpty()) {
             _memoCreateUiState.value = MemoCreateUiState.Empty
         } else {

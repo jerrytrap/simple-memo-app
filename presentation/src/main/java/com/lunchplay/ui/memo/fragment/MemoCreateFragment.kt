@@ -24,7 +24,7 @@ class MemoCreateFragment : BaseFragment<FragmentMemoCreateBinding>(R.layout.frag
 
     private fun addSaveButtonClickListener() {
         binding.buttonSave.setOnClickListener {
-            viewModel.createMemo()
+            //viewModel.createMemo()
         }
     }
 

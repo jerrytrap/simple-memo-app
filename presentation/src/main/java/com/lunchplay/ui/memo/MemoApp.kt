@@ -24,7 +24,15 @@ fun MemoNavHost(
                 onItemClick = { item ->
                     navController.currentBackStackEntry?.savedStateHandle?.set("memoInfo", item)
                     navController.navigate("memoDetail")
+                },
+                onCreateButtonClick = {
+                    navController.navigate("memoCreate")
                 }
+            )
+        }
+        composable("memoCreate") {
+            MemoCreateScreen(
+                onSaveButtonClick = { navController.popBackStack() }
             )
         }
         composable("memoDetail") {
