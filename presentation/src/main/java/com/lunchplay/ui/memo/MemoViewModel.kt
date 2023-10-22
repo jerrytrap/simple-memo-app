@@ -72,15 +72,12 @@ class MemoViewModel @Inject constructor(
         }
     }
 
-    fun editMemo(memo: MemoUiModel) {
-        val title = memoTitle.value
-        val contents = memoContents.value
-
+    fun editMemo(memoId: Int, title: String, contents: String) {
         if (title.isEmpty() || contents.isEmpty()) {
             _memoEditUiState.value = MemoEditUiState.Empty
         } else {
             val newMemo = Memo(
-                memo.id,
+                memoId,
                 title,
                 contents,
                 LocalDateTime.now().toString()

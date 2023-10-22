@@ -31,7 +31,7 @@ class MemoEditFragment : BaseFragment<FragmentMemoEditBinding>(R.layout.fragment
 
     private fun addSaveButtonClickListener(memo: MemoUiModel) {
         binding.buttonSave.setOnClickListener {
-            viewModel.editMemo(memo)
+            //viewModel.editMemo(memo)
         }
     }
 

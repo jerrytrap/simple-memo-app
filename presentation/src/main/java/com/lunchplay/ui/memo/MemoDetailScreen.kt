@@ -18,12 +18,14 @@ import com.lunchplay.ui.memo.model.MemoUiModel
 @Composable
 fun MemoDetailScreen(
     memo: MemoUiModel,
-    onBackButtonClick: () -> Unit
+    onBackButtonClick: () -> Unit,
+    onEditMenuClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
             MemoDetailTopAppBar(
-                onBackButtonClick = onBackButtonClick
+                onBackButtonClick = onBackButtonClick,
+                onEditMenuClick = onEditMenuClick
             )
         }
     ) { innerPadding ->
@@ -48,7 +50,8 @@ fun MemoDetailScreen(
 
 @Composable
 fun MemoDetailTopAppBar(
-    onBackButtonClick: () -> Unit
+    onBackButtonClick: () -> Unit,
+    onEditMenuClick: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -72,7 +75,7 @@ fun MemoDetailTopAppBar(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    DropdownMenuItem(onClick = { /* Navigate to EditMemoScreen */ }) {
+                    DropdownMenuItem(onClick = { onEditMenuClick() }) {
                         Text(stringResource(id = R.string.edit_memo))
                     }
                     DropdownMenuItem(onClick = { /* Show DeleteMemo Dialog */ }) {
