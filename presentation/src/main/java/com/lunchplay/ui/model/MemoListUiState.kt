@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo.model
+package com.lunchplay.ui.model
 
 sealed class MemoListUiState {
     object Loading : MemoListUiState()

@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
-import com.lunchplay.ui.memo.model.MemoCreateUiState
+import com.lunchplay.ui.model.MemoCreateUiState
 
 @Composable
 fun MemoCreateScreen(

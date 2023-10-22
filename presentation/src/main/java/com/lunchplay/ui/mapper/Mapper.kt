@@ -1,8 +1,8 @@
-package com.lunchplay.ui.memo.mapper
+package com.lunchplay.ui.mapper
 
 import com.lunchplay.domain.entity.Memo
-import com.lunchplay.ui.memo.model.MemoUiModel
-import com.lunchplay.ui.memo.util.calcMemoWrittenTime
+import com.lunchplay.ui.model.MemoUiModel
+import com.lunchplay.ui.util.calcMemoWrittenTime
 
 fun Memo.toUiModel() =
     MemoUiModel(

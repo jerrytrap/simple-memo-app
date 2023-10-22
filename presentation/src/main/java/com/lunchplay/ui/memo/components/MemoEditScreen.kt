@@ -15,8 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
-import com.lunchplay.ui.memo.model.MemoEditUiState
-import com.lunchplay.ui.memo.model.MemoUiModel
+import com.lunchplay.ui.model.MemoEditUiState
+import com.lunchplay.ui.model.MemoUiModel
 
 @Composable
 fun MemoEditScreen(

@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.lunchplay.ui.memo.model.MemoUiModel
+import com.lunchplay.ui.model.MemoUiModel
 
 @Composable
 fun MemoApp() {

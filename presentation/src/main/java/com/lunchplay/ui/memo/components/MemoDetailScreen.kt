@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
-import com.lunchplay.ui.memo.model.MemoDeleteUiState
-import com.lunchplay.ui.memo.model.MemoUiModel
+import com.lunchplay.ui.model.MemoDeleteUiState
+import com.lunchplay.ui.model.MemoUiModel
 
 @Composable
 fun MemoDetailScreen(
