@@ -1,7 +1,7 @@
-package com.lunchplay.ui.memo.util
+package com.lunchplay.ui.util
 
-import com.lunchplay.ui.memo.model.Period
-import com.lunchplay.ui.memo.model.WrittenTime
+import com.lunchplay.ui.model.Period
+import com.lunchplay.ui.model.WrittenTime
 import java.time.*
 
 fun String.calcMemoWrittenTime(): WrittenTime {

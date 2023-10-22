@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo.model
+package com.lunchplay.ui.model
 
 enum class Period {
     FEW_YEARS_AGO,

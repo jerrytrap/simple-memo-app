@@ -7,8 +7,8 @@ import com.lunchplay.domain.usecase.CreateMemo
 import com.lunchplay.domain.usecase.DeleteMemo
 import com.lunchplay.domain.usecase.EditMemo
 import com.lunchplay.domain.usecase.GetMemos
-import com.lunchplay.ui.memo.mapper.toUiModel
-import com.lunchplay.ui.memo.model.*
+import com.lunchplay.ui.mapper.toUiModel
+import com.lunchplay.ui.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -47,13 +47,7 @@ class MemoViewModel @Inject constructor(
     private val _memoDeleteUiState = MutableStateFlow<MemoDeleteUiState>(MemoDeleteUiState.Loading)
     val memoDeleteUiState: StateFlow<MemoDeleteUiState> = _memoDeleteUiState
 
-    val memoTitle = MutableStateFlow(EMPTY_STRING)
-    val memoContents = MutableStateFlow(EMPTY_STRING)
-
-    fun createMemo() {
-        val title = memoTitle.value
-        val contents = memoContents.value
-
+    fun createMemo(title: String, contents: String) {
         if (title.isEmpty() || contents.isEmpty()) {
             _memoCreateUiState.value = MemoCreateUiState.Empty
         } else {
@@ -75,15 +69,12 @@ class MemoViewModel @Inject constructor(
         }
     }
 
-    fun editMemo(memo: MemoUiModel) {
-        val title = memoTitle.value
-        val contents = memoContents.value
-
+    fun editMemo(memoId: Int, title: String, contents: String) {
         if (title.isEmpty() || contents.isEmpty()) {
             _memoEditUiState.value = MemoEditUiState.Empty
         } else {
             val newMemo = Memo(
-                memo.id,
+                memoId,
                 title,
                 contents,
                 LocalDateTime.now().toString()
@@ -111,33 +102,19 @@ class MemoViewModel @Inject constructor(
         }
     }
 
-    fun setTextField(memo: MemoUiModel) {
-        memoTitle.value = memo.title
-        memoContents.value = memo.contents
-    }
-
     fun memoCreateMessageShown() {
         _memoCreateUiState.value = MemoCreateUiState.Loading
-        clearTextField()
     }
 
     fun memoEditMessageShown() {
         _memoEditUiState.value = MemoEditUiState.Loading
-        clearTextField()
     }
 
     fun memoDeleteMessageShown() {
         _memoDeleteUiState.value = MemoDeleteUiState.Loading
-        clearTextField()
-    }
-
-    private fun clearTextField() {
-        memoTitle.value = EMPTY_STRING
-        memoContents.value = EMPTY_STRING
     }
 
     companion object {
-        const val EMPTY_STRING = ""
         const val DEFAULT_MEMO_ID = 0
         const val STOP_TIMEOUT_MILLIS = 5000L
     }

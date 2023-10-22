@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo.model
+package com.lunchplay.ui.model
 
 import java.time.LocalDateTime
 

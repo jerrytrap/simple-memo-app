@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo.model
+package com.lunchplay.ui.model
 
 import com.lunchplay.domain.entity.Memo
 import java.io.Serializable
