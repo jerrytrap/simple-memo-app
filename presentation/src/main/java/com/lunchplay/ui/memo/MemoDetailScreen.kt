@@ -9,23 +9,44 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
+import com.lunchplay.ui.memo.model.MemoDeleteUiState
 import com.lunchplay.ui.memo.model.MemoUiModel
 
 @Composable
 fun MemoDetailScreen(
     memo: MemoUiModel,
     onBackButtonClick: () -> Unit,
-    onEditMenuClick: () -> Unit
+    onEditMenuClick: () -> Unit,
+    onDeleteMenuClick: () -> Unit,
+    viewModel: MemoViewModel = hiltViewModel()
 ) {
+    val memoDeleteUiState by viewModel.memoDeleteUiState.collectAsState(initial = MemoDeleteUiState.Loading)
+    val context = LocalContext.current
+
+    when (memoDeleteUiState) {
+        is MemoDeleteUiState.Success -> {
+            showToast(context, R.string.memo_delete_success)
+            viewModel.memoDeleteMessageShown()
+            onDeleteMenuClick()
+        }
+        is MemoDeleteUiState.Error -> {
+            showToast(context, R.string.memo_delete_fail)
+            viewModel.memoDeleteMessageShown()
+        }
+        is MemoDeleteUiState.Loading -> Unit
+    }
     Scaffold(
         topBar = {
             MemoDetailTopAppBar(
                 onBackButtonClick = onBackButtonClick,
-                onEditMenuClick = onEditMenuClick
+                onEditMenuClick = onEditMenuClick,
+                onDeleteMenuClick = { viewModel.deleteMemo(memo) }
             )
         }
     ) { innerPadding ->
@@ -51,9 +72,11 @@ fun MemoDetailScreen(
 @Composable
 fun MemoDetailTopAppBar(
     onBackButtonClick: () -> Unit,
-    onEditMenuClick: () -> Unit
+    onEditMenuClick: () -> Unit,
+    onDeleteMenuClick: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    var openDeleteDialog by remember { mutableStateOf(false) }
 
     TopAppBar(
         title = {  },
@@ -78,10 +101,48 @@ fun MemoDetailTopAppBar(
                     DropdownMenuItem(onClick = { onEditMenuClick() }) {
                         Text(stringResource(id = R.string.edit_memo))
                     }
-                    DropdownMenuItem(onClick = { /* Show DeleteMemo Dialog */ }) {
+                    DropdownMenuItem(onClick = { openDeleteDialog = true }) {
                         Text(stringResource(id = R.string.delete_memo))
                     }
                 }
+            }
+        }
+    )
+
+    when {
+        openDeleteDialog -> {
+            DeleteDialog(
+                onDismissRequest = { openDeleteDialog = false },
+                onConfirmation = {
+                    openDeleteDialog = false
+                    onDeleteMenuClick()
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun DeleteDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit
+) {
+    AlertDialog(
+        title = { Text(stringResource(id = R.string.memo_delete_alert_title)) },
+        text = { Text(stringResource(id = R.string.memo_delete_alert_message)) },
+        onDismissRequest = { onDismissRequest() },
+        confirmButton = {
+            TextButton(
+                onClick = { onConfirmation() }
+            ) {
+                Text(stringResource(id = R.string.confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = { onDismissRequest() }
+            ) {
+                Text(stringResource(id = R.string.dismiss))
             }
         }
     )

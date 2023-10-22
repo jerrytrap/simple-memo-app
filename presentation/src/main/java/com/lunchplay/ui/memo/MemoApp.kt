@@ -46,7 +46,8 @@ fun MemoNavHost(
                 MemoDetailScreen(
                     memo = memoInfo,
                     onBackButtonClick = { navController.popBackStack() },
-                    onEditMenuClick = { navController.navigate("memoEdit") }
+                    onEditMenuClick = { navController.navigate("memoEdit") },
+                    onDeleteMenuClick = { navController.popBackStack() }
                 )
             }
         }
