@@ -9,13 +9,14 @@
   - 메모 목록에서 항목 선택 시 제목 및 내용 표시
 
 ## 기술 스택
-| 브랜치                    | 사용 기술                                                      |
-|------------------------|------------------------------------------------------------|
-| rxjava-livedata        | RxJava2, LiveData                                          |
-| rxjava-livedata-paging | RxJava2, LiveData, Paging3                                 |
-| coroutine-flow         | Kotlin Coroutines, Kotlin Flow, StateFlow                  |
-| coroutine-flow-paging  | Kotlin Coroutines, Kotlin Flow, StateFlow, Paging3         |
-| flow-compose           | Kotlin Coroutines, Kotlin Flow, StateFlow, Jetpack Compose |
+| 브랜치                    | 사용 기술                                                               |
+|------------------------|---------------------------------------------------------------------|
+| rxjava-livedata        | RxJava2, LiveData                                                   |
+| rxjava-livedata-paging | RxJava2, LiveData, Paging3                                          |
+| coroutine-flow         | Kotlin Coroutines, Kotlin Flow, StateFlow                           |
+| coroutine-flow-paging  | Kotlin Coroutines, Kotlin Flow, StateFlow, Paging3                  |
+| flow-compose           | Kotlin Coroutines, Kotlin Flow, StateFlow, Jetpack Compose          |
+| flow-compose-paging    | Kotlin Coroutines, Kotlin Flow, StateFlow, Jetpack Compose, Paging3 |
 
 - 공통
   - MVVM
