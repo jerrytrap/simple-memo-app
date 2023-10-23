@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
+import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.model.MemoListUiState
 import com.lunchplay.ui.model.MemoUiModel
 import com.lunchplay.ui.model.Period

@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
+import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.model.MemoEditUiState
 import com.lunchplay.ui.model.MemoUiModel
 
