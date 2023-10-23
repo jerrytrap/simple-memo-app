@@ -41,27 +41,27 @@ fun MemoListScreen(
     val memoListUiState by viewModel.memoListUiState.collectAsState(initial = MemoListUiState.Loading)
     when (memoListUiState) {
         is MemoListUiState.Success -> {
-            ShowMemoList(
+            MemoList(
                 memoListUiState = memoListUiState,
                 onItemClick = onItemClick
             )
         }
         is MemoListUiState.Empty -> {
-            ShowTextAtCenter(R.string.info_new_memo)
+            AlertMessage(R.string.info_new_memo)
         }
         is MemoListUiState.Error -> {
-            ShowTextAtCenter(R.string.info_memo_error)
+            AlertMessage(R.string.info_memo_error)
         }
         is MemoListUiState.Loading -> Unit
     }
 
-    ShowMemoCreateButton {
+    MemoCreateButton {
         onCreateButtonClick()
     }
 }
 
 @Composable
-fun ShowMemoList(
+fun MemoList(
     memoListUiState: MemoListUiState,
     onItemClick: (MemoUiModel) -> Unit
 ) {
@@ -77,7 +77,7 @@ fun ShowMemoList(
 }
 
 @Composable
-fun ShowTextAtCenter(resId: Int) {
+fun AlertMessage(resId: Int) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Center,
@@ -91,7 +91,7 @@ fun ShowTextAtCenter(resId: Int) {
 }
 
 @Composable
-fun ShowMemoCreateButton(onclick: () -> Unit) {
+fun MemoCreateButton(onclick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
