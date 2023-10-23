@@ -2,6 +2,8 @@ package com.lunchplay.ui.memo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.lunchplay.domain.entity.Memo
 import com.lunchplay.domain.usecase.CreateMemo
 import com.lunchplay.domain.usecase.DeleteMemo
@@ -11,7 +13,6 @@ import com.lunchplay.ui.mapper.toUiModel
 import com.lunchplay.ui.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -23,20 +24,10 @@ class MemoViewModel @Inject constructor(
     private val editMemo: EditMemo,
     private val deleteMemo: DeleteMemo
 ) : ViewModel() {
-    val memoListUiState: StateFlow<MemoListUiState> = getMemos()
+    val memoList: Flow<PagingData<MemoUiModel>> = getMemos()
         .map { memos ->
-            if (memos.isEmpty()) {
-                MemoListUiState.Empty
-            } else {
-                MemoListUiState.Success(memos.map { it.toUiModel() })
-            }
-        }.catch {
-            MemoListUiState.Error
-        }.stateIn(
-            initialValue = MemoListUiState.Loading,
-            scope = viewModelScope,
-            started = WhileSubscribed(STOP_TIMEOUT_MILLIS)
-        )
+            memos.map { it.toUiModel() }
+        }
 
     private val _memoCreateUiState = MutableStateFlow<MemoCreateUiState>(MemoCreateUiState.Loading)
     val memoCreateUiState: StateFlow<MemoCreateUiState> = _memoCreateUiState
@@ -116,6 +107,5 @@ class MemoViewModel @Inject constructor(
 
     companion object {
         const val DEFAULT_MEMO_ID = 0
-        const val STOP_TIMEOUT_MILLIS = 5000L
     }
 }
