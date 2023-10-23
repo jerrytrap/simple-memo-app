@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -52,7 +53,9 @@ fun MemoListScreen(
         is MemoListUiState.Error -> {
             AlertMessage(R.string.info_memo_error)
         }
-        is MemoListUiState.Loading -> Unit
+        is MemoListUiState.Loading -> {
+            MemoListProgressBar()
+        }
     }
 
     MemoCreateButton {
@@ -148,6 +151,19 @@ fun MemoListItem(
             text = dateText,
             fontSize = 20.sp,
             modifier = Modifier.padding(10.dp)
+        )
+    }
+}
+
+@Composable
+fun MemoListProgressBar() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Center,
+        horizontalAlignment = CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.wrapContentSize()
         )
     }
 }
