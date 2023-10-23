@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement.Bottom
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -38,21 +39,25 @@ fun MemoListScreen(
 
     val memoList = viewModel.memoList.collectAsLazyPagingItems()
 
-    when (memoList.loadState.append) {
-        is LoadState.NotLoading -> {
-            if (memoList.itemCount == 0) {
-                AlertMessage(resId = R.string.info_new_memo)
-            } else {
-                MemoList(
-                    memoList = memoList,
-                    onItemClick = onItemClick
-                )
+    memoList.loadState.apply {
+        when {
+            refresh is LoadState.Loading-> {
+                MemoListProgressBar()
+            }
+            append is LoadState.NotLoading -> {
+                if (append.endOfPaginationReached && memoList.itemCount == 0) {
+                    AlertMessage(resId = R.string.info_new_memo)
+                } else {
+                    MemoList(
+                        memoList = memoList,
+                        onItemClick = onItemClick
+                    )
+                }
+            }
+            append is LoadState.Error -> {
+                AlertMessage(resId = R.string.info_memo_error)
             }
         }
-        is LoadState.Error -> {
-            AlertMessage(resId = R.string.info_memo_error)
-        }
-        is LoadState.Loading -> { /* progress bar 표시 */ }
     }
 
     MemoCreateButton {
@@ -150,6 +155,19 @@ fun MemoListItem(
             text = dateText,
             fontSize = 20.sp,
             modifier = Modifier.padding(10.dp)
+        )
+    }
+}
+
+@Composable
+fun MemoListProgressBar() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Center,
+        horizontalAlignment = CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.wrapContentSize()
         )
     }
 }
