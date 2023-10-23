@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -6,15 +6,13 @@ import androidx.compose.foundation.layout.Arrangement.Bottom
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
@@ -23,8 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.lunchplay.ui.R
-import com.lunchplay.ui.model.MemoListUiState
+import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.model.MemoUiModel
 import com.lunchplay.ui.model.Period
 import com.lunchplay.ui.model.WrittenTime
@@ -37,46 +38,54 @@ fun MemoListScreen(
 ) {
     val viewModel: MemoViewModel = hiltViewModel()
 
-    val memoListUiState by viewModel.memoListUiState.collectAsState(initial = MemoListUiState.Loading)
-    when (memoListUiState) {
-        is MemoListUiState.Success -> {
-            ShowMemoList(
-                memoListUiState = memoListUiState,
-                onItemClick = onItemClick
-            )
+    val memoList = viewModel.memoList.collectAsLazyPagingItems()
+
+    memoList.loadState.apply {
+        when {
+            refresh is LoadState.Loading-> {
+                MemoListProgressBar()
+            }
+            append is LoadState.NotLoading -> {
+                if (append.endOfPaginationReached && memoList.itemCount == 0) {
+                    AlertMessage(resId = R.string.info_new_memo)
+                } else {
+                    MemoList(
+                        memoList = memoList,
+                        onItemClick = onItemClick
+                    )
+                }
+            }
+            append is LoadState.Error -> {
+                AlertMessage(resId = R.string.info_memo_error)
+            }
         }
-        is MemoListUiState.Empty -> {
-            ShowTextAtCenter(R.string.info_new_memo)
-        }
-        is MemoListUiState.Error -> {
-            ShowTextAtCenter(R.string.info_memo_error)
-        }
-        is MemoListUiState.Loading -> Unit
     }
 
-    ShowMemoCreateButton {
+    MemoCreateButton {
         onCreateButtonClick()
     }
 }
 
 @Composable
-fun ShowMemoList(
-    memoListUiState: MemoListUiState,
+fun MemoList(
+    memoList: LazyPagingItems<MemoUiModel>,
     onItemClick: (MemoUiModel) -> Unit
 ) {
     LazyColumn(Modifier.fillMaxSize()) {
-        val data = (memoListUiState as MemoListUiState.Success).memos
-        items(data) { item ->
-            MemoListItem(
-                item = item,
-                onclick = { onItemClick(item) }
-            )
+        items(memoList.itemCount) { idx->
+            val item = memoList[idx]
+            if (item != null) {
+                MemoListItem(
+                    item = item,
+                    onclick = { onItemClick(item) }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ShowTextAtCenter(resId: Int) {
+fun AlertMessage(resId: Int) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Center,
@@ -90,7 +99,7 @@ fun ShowTextAtCenter(resId: Int) {
 }
 
 @Composable
-fun ShowMemoCreateButton(onclick: () -> Unit) {
+fun MemoCreateButton(onclick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -147,6 +156,19 @@ fun MemoListItem(
             text = dateText,
             fontSize = 20.sp,
             modifier = Modifier.padding(10.dp)
+        )
+    }
+}
+
+@Composable
+fun MemoListProgressBar() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Center,
+        horizontalAlignment = CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.wrapContentSize()
         )
     }
 }

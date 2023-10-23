@@ -1,12 +1,12 @@
 package com.lunchplay.data.memo.source.local
 
+import androidx.paging.PagingSource
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MemoDao {
     @Query("SELECT * FROM MemoEntity ORDER BY date DESC")
-    fun getMemos(): Flow<List<MemoEntity>>
+    fun getMemos(): PagingSource<Int, MemoEntity>
 
     @Insert
     suspend fun createMemo(memo: MemoEntity)

@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.components
 
 import android.content.Context
 import android.widget.Toast

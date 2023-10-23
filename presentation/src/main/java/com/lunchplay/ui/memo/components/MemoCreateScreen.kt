@@ -1,4 +1,4 @@
-package com.lunchplay.ui.memo
+package com.lunchplay.ui.memo.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lunchplay.ui.R
+import com.lunchplay.ui.memo.MemoViewModel
 import com.lunchplay.ui.model.MemoCreateUiState
 
 @Composable
