@@ -3,32 +3,32 @@ package com.lunchplay.ui.memo.adapter
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.lunchplay.ui.R
-import com.lunchplay.ui.memo.model.Period
-import com.lunchplay.ui.memo.model.WrittenTime
+import com.lunchplay.ui.memo.model.MemoTimeInterval
+import com.lunchplay.ui.memo.model.MemoEditedTime
 
-@BindingAdapter("writtenTime")
-fun bindingWrittenTime(view: TextView, writtenTime: WrittenTime) {
-    when (writtenTime.period) {
-        Period.FEW_YEARS_AGO -> {
+@BindingAdapter("editedTime")
+fun bindingEditedTime(view: TextView, editedTime: MemoEditedTime) {
+    when (editedTime.interval) {
+        MemoTimeInterval.FEW_YEARS_AGO -> {
             view.text = view.context.getString(
                 R.string.memo_few_years_ago,
-                writtenTime.dateTime.year,
-                writtenTime.dateTime.monthValue,
-                writtenTime.dateTime.dayOfMonth
+                editedTime.dateTime.year,
+                editedTime.dateTime.monthValue,
+                editedTime.dateTime.dayOfMonth
             )
         }
-        Period.THIS_YEAR -> {
+        MemoTimeInterval.THIS_YEAR -> {
             view.text = view.context.getString(
                 R.string.memo_this_year,
-                writtenTime.dateTime.monthValue,
-                writtenTime.dateTime.dayOfMonth
+                editedTime.dateTime.monthValue,
+                editedTime.dateTime.dayOfMonth
             )
         }
-        Period.TODAY -> {
+        MemoTimeInterval.TODAY -> {
             view.text = view.context.getString(
                 R.string.memo_today,
-                writtenTime.dateTime.hour,
-                writtenTime.dateTime.minute
+                editedTime.dateTime.hour,
+                editedTime.dateTime.minute
             )
         }
     }

@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/textView_memoDate"
-            writtenTime="@{memo.date}"
+            editedTime="@{memo.date}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"

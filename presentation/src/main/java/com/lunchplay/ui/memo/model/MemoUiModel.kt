@@ -7,7 +7,7 @@ data class MemoUiModel(
     val id: Int,
     val title: String,
     val contents: String,
-    val date: WrittenTime
+    val date: MemoEditedTime
 ) : Serializable {
     fun toMemo() = Memo(
         id,

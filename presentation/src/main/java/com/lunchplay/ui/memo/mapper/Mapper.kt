@@ -9,5 +9,5 @@ fun Memo.toUiModel() =
         id,
         title,
         contents,
-        date.calcMemoWrittenTime()
+        calcMemoWrittenTime(date)
     )
