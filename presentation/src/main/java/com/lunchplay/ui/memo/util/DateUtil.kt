@@ -4,9 +4,11 @@ import com.lunchplay.ui.memo.model.MemoTimeInterval
 import com.lunchplay.ui.memo.model.MemoEditedTime
 import java.time.*
 
-fun calcMemoWrittenTime(time: String): MemoEditedTime {
+fun calcMemoEditedTime(
+    time: String,
+    now: LocalDateTime = LocalDateTime.now()
+): MemoEditedTime {
     val memoDateTime = LocalDateTime.parse(time)
-    val now = LocalDateTime.now()
     val yearDiff = now.year - memoDateTime.year
     val dayDiff = now.dayOfYear - memoDateTime.dayOfYear
 
