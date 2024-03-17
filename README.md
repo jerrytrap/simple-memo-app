@@ -17,6 +17,7 @@
 | coroutine-flow-paging  | Kotlin Coroutines, Kotlin Flow, StateFlow, Paging3                  |
 | flow-compose           | Kotlin Coroutines, Kotlin Flow, StateFlow, Jetpack Compose          |
 | flow-compose-paging    | Kotlin Coroutines, Kotlin Flow, StateFlow, Jetpack Compose, Paging3 |
+| unit-test              | JUnit4                                                              |
 
 - 공통
   - MVVM
